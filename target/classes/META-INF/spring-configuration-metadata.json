@@ -1,0 +1,133 @@
+{
+  "groups": [
+    {
+      "name": "core.security.shiro",
+      "type": "com.easy.tom.conf.ShiroProperties",
+      "sourceType": "com.easy.tom.conf.ShiroProperties"
+    },
+    {
+      "name": "spring.datasource",
+      "type": "com.easy.tom.conf.DruidConfig$IDataSourceProperties",
+      "sourceType": "com.easy.tom.conf.DruidConfig$IDataSourceProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "core.security.shiro.filter-chain-definition-map",
+      "type": "java.util.Map<java.lang.String,java.lang.String>",
+      "sourceType": "com.easy.tom.conf.ShiroProperties"
+    },
+    {
+      "name": "core.security.shiro.login-url",
+      "type": "java.lang.String",
+      "sourceType": "com.easy.tom.conf.ShiroProperties"
+    },
+    {
+      "name": "core.security.shiro.success-url",
+      "type": "java.lang.String",
+      "sourceType": "com.easy.tom.conf.ShiroProperties"
+    },
+    {
+      "name": "spring.datasource.connection-properties",
+      "type": "java.lang.String",
+      "sourceType": "com.easy.tom.conf.DruidConfig$IDataSourceProperties"
+    },
+    {
+      "name": "spring.datasource.driver-class-name",
+      "type": "java.lang.String",
+      "sourceType": "com.easy.tom.conf.DruidConfig$IDataSourceProperties"
+    },
+    {
+      "name": "spring.datasource.filters",
+      "type": "java.lang.String",
+      "sourceType": "com.easy.tom.conf.DruidConfig$IDataSourceProperties"
+    },
+    {
+      "name": "spring.datasource.initial-size",
+      "type": "java.lang.Integer",
+      "sourceType": "com.easy.tom.conf.DruidConfig$IDataSourceProperties",
+      "defaultValue": 0
+    },
+    {
+      "name": "spring.datasource.max-active",
+      "type": "java.lang.Integer",
+      "sourceType": "com.easy.tom.conf.DruidConfig$IDataSourceProperties",
+      "defaultValue": 0
+    },
+    {
+      "name": "spring.datasource.max-pool-prepared-statement-per-connection-size",
+      "type": "java.lang.Integer",
+      "sourceType": "com.easy.tom.conf.DruidConfig$IDataSourceProperties",
+      "defaultValue": 0
+    },
+    {
+      "name": "spring.datasource.max-wait",
+      "type": "java.lang.Integer",
+      "sourceType": "com.easy.tom.conf.DruidConfig$IDataSourceProperties",
+      "defaultValue": 0
+    },
+    {
+      "name": "spring.datasource.min-evictable-idle-time-millis",
+      "type": "java.lang.Integer",
+      "sourceType": "com.easy.tom.conf.DruidConfig$IDataSourceProperties",
+      "defaultValue": 0
+    },
+    {
+      "name": "spring.datasource.min-idle",
+      "type": "java.lang.Integer",
+      "sourceType": "com.easy.tom.conf.DruidConfig$IDataSourceProperties",
+      "defaultValue": 0
+    },
+    {
+      "name": "spring.datasource.password",
+      "type": "java.lang.String",
+      "sourceType": "com.easy.tom.conf.DruidConfig$IDataSourceProperties"
+    },
+    {
+      "name": "spring.datasource.pool-prepared-statements",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.easy.tom.conf.DruidConfig$IDataSourceProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "spring.datasource.test-on-borrow",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.easy.tom.conf.DruidConfig$IDataSourceProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "spring.datasource.test-on-return",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.easy.tom.conf.DruidConfig$IDataSourceProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "spring.datasource.test-while-idle",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.easy.tom.conf.DruidConfig$IDataSourceProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "spring.datasource.time-between-eviction-runs-millis",
+      "type": "java.lang.Integer",
+      "sourceType": "com.easy.tom.conf.DruidConfig$IDataSourceProperties",
+      "defaultValue": 0
+    },
+    {
+      "name": "spring.datasource.url",
+      "type": "java.lang.String",
+      "sourceType": "com.easy.tom.conf.DruidConfig$IDataSourceProperties"
+    },
+    {
+      "name": "spring.datasource.username",
+      "type": "java.lang.String",
+      "sourceType": "com.easy.tom.conf.DruidConfig$IDataSourceProperties"
+    },
+    {
+      "name": "spring.datasource.validation-query",
+      "type": "java.lang.String",
+      "sourceType": "com.easy.tom.conf.DruidConfig$IDataSourceProperties"
+    }
+  ],
+  "hints": []
+}
