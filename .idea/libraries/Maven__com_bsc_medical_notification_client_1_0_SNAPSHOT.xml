@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.bsc.medical:notification-client:1.0-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../maven/common/repository/com/bsc/medical/notification-client/1.0-SNAPSHOT/notification-client-1.0-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../maven/common/repository/com/bsc/medical/notification-client/1.0-SNAPSHOT/notification-client-1.0-SNAPSHOT-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../maven/common/repository/com/bsc/medical/notification-client/1.0-SNAPSHOT/notification-client-1.0-SNAPSHOT-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

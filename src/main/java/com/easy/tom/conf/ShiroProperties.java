@@ -1,10 +1,6 @@
 package com.easy.tom.conf;
 
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.util.StringUtils;
-
-import javax.annotation.PostConstruct;
 import java.util.Map;
 
 @ConfigurationProperties(

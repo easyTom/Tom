@@ -2,9 +2,7 @@ package com.easy.tom.conf;
 
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
-import com.tom.cf.core.service.UserRightService;
-import com.tom.cf.core.service.UserService;
-import com.tom.cf.shiro.MyShiroRealm;
+import com.easy.tom.system.service.impl.UserService;
 import org.apache.shiro.authc.pam.FirstSuccessfulStrategy;
 import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
@@ -32,9 +30,7 @@ public class ShiroConfig {
     @Autowired
     private ShiroProperties shiroProperties;
     @Autowired
-    private UserRightService nmUserRightService;
-    @Autowired
-    private UserService nmUserService;
+    private UserService userService;
 
     @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
@@ -60,7 +56,6 @@ public class ShiroConfig {
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setAuthenticator(authenticator());
-//        securityManager.setSubjectFactory(casSubjectFactory());
         securityManager.setCacheManager(ehCacheManager());
         securityManager.setRealm(myShiroRealm());
         return securityManager;
@@ -116,8 +111,7 @@ public class ShiroConfig {
     @Bean
     public MyShiroRealm myShiroRealm() {
         MyShiroRealm myShiroRealm = new MyShiroRealm();
-        myShiroRealm.setNmUserRightService(nmUserRightService);
-        myShiroRealm.setNmUserService(nmUserService);
+        myShiroRealm.setUserService(userService);
         myShiroRealm.setAuthenticationCachingEnabled(true);
         myShiroRealm.setAuthenticationCacheName("authenticationCache");
         myShiroRealm.setAuthorizationCachingEnabled(true);

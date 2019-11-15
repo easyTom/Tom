@@ -2,6 +2,7 @@ package com.easy.tom.conf;
 
 import com.easy.common.utils.ShiroUtils;
 import com.easy.tom.system.entity.User;
+import com.easy.tom.system.service.impl.UserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
@@ -11,16 +12,15 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 //实现AuthorizingRealm接口用户用户认证
 public class MyShiroRealm extends AuthorizingRealm {
 
     //用于用户查询
-
-    private UserService nmUserService;
-
-    private UserRightService nmUserRightService;
+    private UserService userService;
 
     //角色权限和对应权限添加
     @Override
@@ -28,7 +28,8 @@ public class MyShiroRealm extends AuthorizingRealm {
         //获取登录用户名
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         User u = (User)principalCollection.getPrimaryPrincipal();
-        Set<String> permissions = nmUserRightService.findActionAliasByUserId(u.getUserId());
+        List<User> list = userService.findActionAliasByUserId(u.getUserId());
+        Set<String> permissions = new HashSet(list);
         simpleAuthorizationInfo.setStringPermissions(permissions);
         return simpleAuthorizationInfo;
     }
@@ -43,7 +44,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         }
         //获取用户信息
         String name = authenticationToken.getPrincipal().toString();
-        User user = nmUserService.findUserByUserName(name);
+        User user = userService.findUserByUserName(name);
         //账号不存在
         if(user == null) {
             throw new UnknownAccountException("账号或密码不正确");
@@ -53,28 +54,17 @@ public class MyShiroRealm extends AuthorizingRealm {
         if(user.getStatus() == 0){
             throw new LockedAccountException("账号已被锁定,请联系管理员");
         } else {
-            //这里验证authenticationToken和simpleAuthenticationInfo的信息
-            /*SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(name, user.getPassword(), getName());
-            return simpleAuthenticationInfo;*/
             //盐值加密
             return new SimpleAuthenticationInfo(user, user.getPassword(), ByteSource.Util.bytes(user.getSalt()), getName());
         }
     }
 
-    public UserRightService getNmUserRightService() {
-        return nmUserRightService;
+    public UserService getUserService() {
+        return userService;
     }
 
-    public void setNmUserRightService(UserRightService nmUserRightService) {
-        this.nmUserRightService = nmUserRightService;
-    }
-
-    public UserService getNmUserService() {
-        return nmUserService;
-    }
-
-    public void setNmUserService(UserService nmUserService) {
-        this.nmUserService = nmUserService;
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
     /**

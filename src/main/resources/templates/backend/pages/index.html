@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{backend/layouts/default}">
+
+<head th:include="backend/layouts/default :: htmlhead" th:with="title='bsc'"></head>
+
+<body>
+	<section layout:fragment="content">
+		<!-- BEGIN CONTENT -->
+		<div class="page-content-wrapper">
+			<div class="page-content">
+
+				<!-- BEGIN PAGE HEADER-->
+				<div class="page-bar">
+					<ul class="page-breadcrumb">
+						<li><i class="fa fa-home"></i> <a href="index.html">首页</a>
+							<i class="fa fa-angle-right"></i></li>
+						<!-- <li>
+						<a href="#">Page Layouts</a>
+						<i class="fa fa-angle-right"></i>
+					</li> -->
+						<li><a href="#">状态</a></li>
+					</ul>
+				</div>
+				<!-- END PAGE HEADER-->
+				<!-- BEGIN PAGE CONTENT-->
+				<div class="row">
+					<div class="col-md-12">
+						<!--${i18n[" 用户信息显示"]}-->
+						<div th:replace="backend/layouts/userinfo :: userinfo"></div>
+						<!--${i18n[" 头部导航 "]}-->
+					</div>
+					<div class="col-md-12"></div>
+				</div>
+				<!-- END PAGE CONTENT-->
+			</div>
+		</div>
+		<!-- END CONTENT -->
+	</section>
+</body>
+</html>

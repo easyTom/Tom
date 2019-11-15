@@ -1,0 +1,44 @@
+16:46:29.449 [main] INFO  com.easy.tom.App - Starting App on DESKTOP-DH2EUDA with PID 106336 (D:\_____tom\Tom\target\classes started by zzw in D:\_____tom\Tom)
+16:46:29.480 [main] DEBUG com.easy.tom.App - Running with Spring Boot v1.4.0.RELEASE, Spring v4.3.2.RELEASE
+16:46:29.480 [main] INFO  com.easy.tom.App - No active profile set, falling back to default profiles: default
+16:46:34.113 [localhost-startStop-1] INFO  com.easy.tom.conf.DruidConfig - init Druid Servlet Configuration 
+16:46:35.111 [main] WARN  o.t.templatemode.TemplateMode - [THYMELEAF][main] Template Mode 'HTML5' is deprecated. Using Template Mode 'HTML' instead.
+16:46:36.019 [main] INFO  com.easy.tom.App - Started App in 7.383 seconds (JVM running for 9.776)
+16:48:53.470 [http-nio-8821-exec-5] DEBUG c.e.t.s.m.U.findUserByUserName - ==>  Preparing: select * from u_user where userName=? 
+16:48:53.790 [http-nio-8821-exec-5] DEBUG c.e.t.s.m.U.findUserByUserName - ==> Parameters: tom(String)
+16:48:53.839 [http-nio-8821-exec-5] DEBUG c.e.t.s.m.U.findUserByUserName - <==      Total: 1
+16:48:53.889 [authentication%0043ache.data] ERROR n.s.e.store.disk.DiskStorageFactory - Disk Write of tom failed: 
+java.io.NotSerializableException: org.apache.shiro.util.SimpleByteSource
+	at java.io.ObjectOutputStream.writeObject0(ObjectOutputStream.java:1184)
+	at java.io.ObjectOutputStream.defaultWriteFields(ObjectOutputStream.java:1548)
+	at java.io.ObjectOutputStream.writeSerialData(ObjectOutputStream.java:1509)
+	at java.io.ObjectOutputStream.writeOrdinaryObject(ObjectOutputStream.java:1432)
+	at java.io.ObjectOutputStream.writeObject0(ObjectOutputStream.java:1178)
+	at java.io.ObjectOutputStream.defaultWriteFields(ObjectOutputStream.java:1548)
+	at java.io.ObjectOutputStream.defaultWriteObject(ObjectOutputStream.java:441)
+	at net.sf.ehcache.Element.writeObject(Element.java:875)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at java.io.ObjectStreamClass.invokeWriteObject(ObjectStreamClass.java:1028)
+	at java.io.ObjectOutputStream.writeSerialData(ObjectOutputStream.java:1496)
+	at java.io.ObjectOutputStream.writeOrdinaryObject(ObjectOutputStream.java:1432)
+	at java.io.ObjectOutputStream.writeObject0(ObjectOutputStream.java:1178)
+	at java.io.ObjectOutputStream.writeObject(ObjectOutputStream.java:348)
+	at net.sf.ehcache.util.MemoryEfficientByteArrayOutputStream.serialize(MemoryEfficientByteArrayOutputStream.java:97)
+	at net.sf.ehcache.store.disk.DiskStorageFactory.serializeElement(DiskStorageFactory.java:403)
+	at net.sf.ehcache.store.disk.DiskStorageFactory.write(DiskStorageFactory.java:385)
+	at net.sf.ehcache.store.disk.DiskStorageFactory$DiskWriteTask.call(DiskStorageFactory.java:477)
+	at net.sf.ehcache.store.disk.DiskStorageFactory$PersistentDiskWriteTask.call(DiskStorageFactory.java:1071)
+	at net.sf.ehcache.store.disk.DiskStorageFactory$PersistentDiskWriteTask.call(DiskStorageFactory.java:1055)
+	at java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:266)
+	at java.util.concurrent.FutureTask.run(FutureTask.java)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+16:48:55.037 [http-nio-8821-exec-6] DEBUG c.e.t.s.m.U.findActionAliasByUserId - ==>  Preparing: select roles name from sys_role WHERE userId=? 
+16:48:55.039 [http-nio-8821-exec-6] DEBUG c.e.t.s.m.U.findActionAliasByUserId - ==> Parameters: c834c396e98545c4bc2bf2a119fb1829(String)
+16:48:55.043 [http-nio-8821-exec-6] DEBUG c.e.t.s.m.U.findActionAliasByUserId - <==      Total: 0

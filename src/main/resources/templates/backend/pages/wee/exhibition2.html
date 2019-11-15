@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no, viewport-fit=cover">
+
+    <link type="text/css" rel="stylesheet" th:href="@{/backend/exhibition/css/bootstrap.min.css}" />
+    <link type="text/css" rel="stylesheet" th:href="@{/backend/exhibition/css/exhibition2.css}"/>
+
+    <style type="text/css">
+        #tagbox{position:relative;margin:20px auto 0px;width:90%;height:90%;background:#0a0f23;}
+        #tagbox a{position:absolute;padding:3px 6px;font-family:Microsoft YaHei;color:#fff;TOP:0px;font-weight:bold;text-decoration:none;left:0px}
+        #tagbox a:hover{border:#eee 1px solid;background:#000;}
+    </style>
+
+    <title>湖南省卫生健康委远程医疗服务与资源监管中心</title>
+</head>
+
+<body>
+<div class="box">
+    <h1>湖南省卫生健康委远程医疗服务与资源监管中心</h1>
+
+    <div class="top1 left">
+        <div class="top1a" style="height:95%;">
+            <div class="con_f1a">
+                <div class="con_f1a-title">最新业务</div>
+                <div class="gd">
+
+                    <div class="bcon">
+                        <!-- 代码开始 -->
+                        <div class="list_lh">
+                            <ul id="list_model">
+
+                            </ul>
+                        </div>
+                        <!-- 代码结束 -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="top2 left" id="model_map">
+
+    </div>
+    <div class="top3 left ">
+        <div class="top3a">
+            <div class="top3a-title" style="top:0px;">
+                远程影像
+            </div>
+            <a th:href="@{/summary/radiology}">
+                <div class="top3a-box" id="week_yx">
+
+                </div>
+            </a>
+        </div>
+        <div class="top3a">
+            <div class="top3a-title" style="top:0px;">
+                远程会诊
+            </div>
+            <a th:href="@{/summary/teleconsultation}">
+                <div class="top3a-box" id="week_hz">
+
+                </div>
+            </a>
+        </div>
+
+    </div>
+    <div class="top4 left">
+        <div class="top3a">
+            <div class="top3a-title" style="top:0px;" >
+                远程心电
+            </div>
+            <a th:href="@{/summary/ecg}">
+                <div class="top3a-box" id="week_xd">
+
+                </div>
+            </a>
+        </div>
+        <div class="top3a">
+            <div class="top3a-title" style="top:0px;">
+                远程教育
+            </div>
+            <a th:href="@{/summary/lecture}">
+                <div class="top3a-box" id="week_jy">
+
+                </div>
+            </a>>
+        </div>
+    </div>
+
+    <div class="top10 left">
+        <div id="tagbox">
+            <a href="#" style="color: #0a6d01">湘雅医院平台</a>
+            <!--<a  href="#" style="color: #0c91e5">襄阳市平台</a>-->
+            <!--<a href="#" style="color: #9D1E15">随州市平台</a>-->
+            <!--<a href="http://61.184.220.39:9000/BSCTelmed/frontend/index" style="color: #fff81d">恩施州平台</a>-->
+            <!--<a  href="https://ycyl.jzyy1949.com:9000/BSCTelmed/frontend/index" style="color: #e440ff">荆州市平台</a>-->
+            <!--<a href="http://www.xnzxyy.com:8081/BSCTelmed/frontend/index" style="color: #ff9625">咸宁市平台</a>-->
+            <!--<a  href="#" style="color: #28ff68">省1+5试点</a>-->
+            <!--<a  href="#" style="color: #f3f2ff">省2+17试点</a>-->
+            <!--<a href="#" style="color: #7641ff">。。。</a>-->
+        </div>
+    </div>
+    <a href="javascript:;" onclick="exhibition.checkCity()">
+    <div class="top5 left">
+        <div class="top3a" >
+            <div class="top3a-title">
+                远程影像
+            </div>
+            <div class="top5a-box" style="margin:0px;">
+                <div class="top5a-div" style="background: #ffb339">
+                    <ul>
+                        <li style="font-size:1.5rem;">申请</li>
+                        <li style="font-size:1.5rem;">报告</li>
+                        <li style="width:100%"><strong id="sum_yx">0</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="top3a">
+            <div class="top3a-title">
+                远程会诊
+            </div>
+            <div class="top5a-box">
+                <div class="top5a-div"  style="background: #f46c64">
+                    <ul>
+                        <li style="font-size:1.5rem;">检查</li>
+                        <li style="font-size:1.5rem;">报告</li>
+                        <li style="width:100%"><strong id="sum_hz">0</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="top6 left">
+        <div class="top3a">
+            <div class="top3a-title" >
+                远程心电
+            </div>
+            <div class="top5a-box" >
+                <div class="top5a-div"  style="background: #02bd86">
+                    <ul>
+                        <li style="font-size:1.5rem;">检查</li>
+                        <li style="font-size:1.5rem;">报告</li>
+                        <li style="width:100%"><strong id="sum_xd">0</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="top3a">
+            <div class="top3a-title" >
+                远程教育
+            </div>
+            <div class="top5a-box" >
+                <div class="top5a-div" style="background: #23d5fb">
+                    <ul>
+                        <li style="font-size:1.5rem;">课程</li>
+                        <li style="font-size:1.5rem;">听课人员</li>
+                        <li >
+                            <strong id="sum_jy_kc">0</strong>
+                        </li>
+                        <li >
+                            <strong id="sum_jy_ry">0</strong>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </a>
+    <div class="top7 left" style="margin-right:1%;">
+        <div class="top3a-title" style="top:0px;">
+            医疗机构
+        </div>
+        <div class="top7ab">
+            <div class="top7ab1">总数:<span id="site_sum">0</span></div>
+            <div class="top7ab2" id="site_level"></div>
+        </div>
+
+    </div>
+    <div class="top7 left">
+        <div class="top3a-title" style="top:0px;">
+            医务人员
+        </div>
+        <div class="top7ab">
+            <div class="top7ab1">总数:<span id="doctor_sum">0</span></div>
+            <div class="top7ab2" id="doctor_level"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var ctx = '[[@{/}]]';
+    ctx = ctx.length > 1 ? ctx : "";
+</script>
+<script th:src="@{/global/plugins/jquery.min.js}" type="text/javascript"></script>
+<script th:src="@{/echarts/dist/echarts.js}" type="text/javascript"></script>
+<script th:src="@{/backend/exhibition/exhibition2.js}" type="text/javascript"></script>
+<script type="text/javascript" th:src="@{/backend/exhibition/scroll.js}"></script>
+<script type="text/javascript" th:src="@{/backend/exhibition/tagbox.js}"></script>
+</body>
+
+</html>

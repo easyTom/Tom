@@ -13,7 +13,7 @@ public class App {
         SpringApplication app = new SpringApplication(App.class);
         app.setBannerMode(Banner.Mode.OFF);
         app.run(args);
-        System.err.println("tom system started");
+        System.err.println("game started");
     }
 
     

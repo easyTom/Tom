@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import lombok.Data;
 
-import javax.annotation.security.DenyAll;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -17,15 +16,15 @@ public class User implements Serializable {
      * 主键
      */
     @TableId
-	private String userid;
+	private String userId;
     /**
      * 登录账号
      */
-	private String username;
+	private String userName;
     /**
      * 真实姓名
      */
-	private String realname;
+	private String realName;
     /**
      * 密码
      */
@@ -33,15 +32,19 @@ public class User implements Serializable {
     /**
      * 所属单位，外键，引用U_SITE表
      */
-	private String siteid;
+	private String siteId;
     /**
      * 用户角色编码
      */
-	private String rolecode;
+	private String roleCode;
     /**
      * 手机
      */
 	private String mobile;
+    /**
+     * 性别
+     */
+	private String sex;
     /**
      * 邮箱
      */
@@ -49,29 +52,39 @@ public class User implements Serializable {
     /**
      * 出生日期
      */
-	private Date birthdate;
+	private Date birthday;
     /**
      * 记录添加时间
      */
-	private Date createtime;
+	private Date createTime;
     /**
      * 记录添加者
      */
-	private String createuser;
+	private String createUser;
     /**
      * 记录最后一次修改时间
      */
-	private Date updatetime;
+	private Date updateTime;
     /**
      * 记录最后一次修改者
      */
-	private String updateuser;
+	private String updateUser;
     /**
      * 用户照片
      */
 	private String photo;
-
+    /**
+     * 用户位置
+     */
 	private String regionCode;
+    /**
+     * 用户锁定
+     */
+	private Integer status;
+    /**
+     * 用户盐值
+     */
+	private String salt;
 
 
 }

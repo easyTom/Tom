@@ -1,7 +1,7 @@
 
 package com.easy.common.utils;
 
-import com.tom.cf.core.entity.User;
+import com.easy.tom.system.entity.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.session.Session;
