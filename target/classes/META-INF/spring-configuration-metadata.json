@@ -1,0 +1,25 @@
+{
+  "groups": [{
+    "name": "core.security.shiro",
+    "type": "com.easy.tom.conf.ShiroProperties",
+    "sourceType": "com.easy.tom.conf.ShiroProperties"
+  }],
+  "properties": [
+    {
+      "name": "core.security.shiro.filter-chain-definition-map",
+      "type": "java.util.Map<java.lang.String,java.lang.String>",
+      "sourceType": "com.easy.tom.conf.ShiroProperties"
+    },
+    {
+      "name": "core.security.shiro.login-url",
+      "type": "java.lang.String",
+      "sourceType": "com.easy.tom.conf.ShiroProperties"
+    },
+    {
+      "name": "core.security.shiro.success-url",
+      "type": "java.lang.String",
+      "sourceType": "com.easy.tom.conf.ShiroProperties"
+    }
+  ],
+  "hints": []
+}
