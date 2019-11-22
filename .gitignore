@@ -1,0 +1,11 @@
+﻿.classpath
+.externalToolBuilders/
+.idea/
+.project
+.settings/
+target/
+/src/test/java/com/bsc/edu/test/Apple.java
+/src/test/java/com/bsc/edu/test/AppleFilter.java
+/src/test/java/com/bsc/edu/test/AppleFilter2.java
+/src/test/java/com/bsc/edu/test/AppleTest.java
+logs
