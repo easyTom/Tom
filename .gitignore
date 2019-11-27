@@ -9,3 +9,4 @@ target/
 /src/test/java/com/bsc/edu/test/AppleFilter2.java
 /src/test/java/com/bsc/edu/test/AppleTest.java
 logs
+*.iml

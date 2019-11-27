@@ -24,7 +24,7 @@
             text concat('%',#{text},'%')
         </if>
         </where>
-        ORDER BY CREATETIME DESC
+        ORDER BY ${order} ${dir}
 		LIMIT #{startIndex},#{size}
 	</select>
 </mapper>

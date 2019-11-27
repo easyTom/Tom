@@ -32,7 +32,6 @@ var TableDatatablesManaged = function (){
             "bInfo":true,
             "bLengthChange":false,
             "bAutoWidth":false,
-            "bSort" : false,
             "pageLength": 10,
             "bProcessing": true,
             "bServerSide": true,
@@ -40,21 +39,20 @@ var TableDatatablesManaged = function (){
             "sAjaxSource": ctx + "/tom/bsc/list",
             "sServerMethod": "POST",
             "fnServerParams": function ( aoData ) {
-                var checkSiteId=$('#checkSiteId').val();
-
+                var order=$('#order').val();
                 aoData.push({
-                        "name" : "conditions['checkSiteId']",
-                        "value" : checkSiteId
+                        "name" : "conditions['order']",
+                        "value" : order
                     });
             },
             "aoColumns": [
-                { "data": "createTime","bSortable": false,"sClass": "text-center" },
-                { "data": "name","bSortable": false,"sClass": "text-center" },
-                { "data": "type","bSortable": false,"sClass": "text-center" },
+                { "data": "name","sClass": "text-left" },
+                { "data": "createTime","sClass": "text-center" },
+                { "data": "type","sClass": "text-center" },
                 { "data": "bscId","bSortable": false,"sClass": "text-center" }
             ],
             "createdRow": function ( row, data, index ) {
-                $('td',row).eq(0).html(datetimeUtils.datetimeToFormatDatetime(new Date(data.createTime)));
+                $('td',row).eq(1).html(datetimeUtils.datetimeToFormatDatetime(new Date(data.createTime)));
                 var  str = '<a style="text-decoration:none;" href="javascript:TableDatatablesManaged.del(\'' + data.bscId + '\');">[ 删除 ]</a>';
                 $('td',row).eq(3).html(str);
                 /*if( $("#initTableRow").val() == data.examId){
@@ -224,6 +222,11 @@ var TableDatatablesManaged = function (){
         });
     }
 
+    var flushBsc = function () {
+        $('#myTable').dataTable().fnClearTable(0);
+        $('#myTable').dataTable().fnDraw();
+    }
+
     return {
         init: function () {
             if (!jQuery().dataTable) {
@@ -234,7 +237,8 @@ var TableDatatablesManaged = function (){
         },
         toAddBsc:toAddBsc,
         valid:valid,
-        del:del
+        del:del,
+        flushBsc:flushBsc
     }
 }();
 

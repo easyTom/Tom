@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/tom/bsc")
@@ -43,12 +40,23 @@ public class BSCController {
         }
         dataTableRequest.getConditions().put("startIndex", dataTableRequest.getIDisplayStart());
         dataTableRequest.getConditions().put("size", dataTableRequest.getIDisplayLength());
+        dataTableRequest.getConditions().put("order", getColumnList().get(dataTableRequest.getISortCol_0()) );
+        dataTableRequest.getConditions().put("dir", dataTableRequest.getSSortDir_0());
 
         Map<String,Object> conditions = dataTableRequest.getConditions();
         list = iBscService.findList(conditions);
         page.setTotal(iBscService.findTotal(conditions));
         page.setRecords(list);
         return DataTableResponse.valueOf(page, dataTableRequest.getSEcho());
+    }
+
+    private static List<String> getColumnList(){
+        List<String> columnList = new ArrayList();
+        columnList.add("name");
+        columnList.add("createTime");
+        columnList.add("type");
+
+        return columnList;
     }
 
     @ResponseBody
