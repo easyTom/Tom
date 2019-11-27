@@ -6,9 +6,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/tom/GSexhibition")
 public class GSExhibitionController {
-    public static final String VIEW = "backend/pages/exhibition/GS/exhibition";
+    public static final String VIEW = "backend/pages/exhibition/";
     public static final String FATHERCODE = "620000";
 
+
+    @RequestMapping("/toExhibition")
+    public String toExhibition(){
+        return VIEW+"exhibition_GS";
+    }
     /*
      * 地市列表
      */

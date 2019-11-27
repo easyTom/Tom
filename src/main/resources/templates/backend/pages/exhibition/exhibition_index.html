@@ -28,7 +28,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div   class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+				<div onclick="goto('GS')"   class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
 					<a  class="dashboard-stat dashboard-stat-light blue"  style="color:#404958;cursor:pointer;">
 						<div class="visual">
 							<!--左下角背景图标-->
@@ -87,6 +87,11 @@
 			</div>
 		</div>
 	</div>
+<script>
+	function goto(name) {
+		location.href=ctx+"/tom/"+name+"exhibition/toExhibition";
+    }
+</script>
 </section>
 </body>
 </html>
