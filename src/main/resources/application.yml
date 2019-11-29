@@ -62,4 +62,4 @@ core.security.shiro:
     /cas: cas
     /tom/**: anon
 #文件保存前缀
-tom.files.path: D:/fcFiles/
+tom.files.path: D:/easyTomFiles/

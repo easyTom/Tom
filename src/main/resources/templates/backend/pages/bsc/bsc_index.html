@@ -56,10 +56,14 @@
 	</div>
 
 <div th:replace="~{backend/pages/modal/bsc_modal}"/>
-<script th:src="@{/backend/bsc/bsc_list.js}"></script>
-<script th:src="@{/backend/spa/exam_list_subrow.js}"></script>
-<script th:src="@{/backend/spa/spa_list_subrow_text_control.js}"></script>
-<script th:src="@{/backend/spa/spa_list_subrow_att_control.js}"></script>
+<div th:replace="~{backend/pages/common/tomModal :: tom_upload}" />
+
+<script type="text/javascript" charset="utf-8"  th:src="@{/backend/common/tomMagnifyControl.js}"></script>
+<script type="text/javascript" charset="utf-8"  th:src="@{/backend/common/tomUploadControl.js}"></script>
+<script type="text/javascript" charset="utf-8"  th:src="@{/backend/bsc/bsc_list.js}"></script>
+<script type="text/javascript" charset="utf-8"  th:src="@{/backend/spa/exam_list_subrow.js}"></script>
+<script type="text/javascript" charset="utf-8"  th:src="@{/backend/spa/spa_list_subrow_text_control.js}"></script>
+<script type="text/javascript" charset="utf-8"  th:src="@{/backend/spa/spa_list_subrow_att_control.js}"></script>
 </section>
 </body>
 </html>

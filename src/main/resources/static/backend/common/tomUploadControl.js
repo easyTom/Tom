@@ -16,7 +16,6 @@ var tomUploadControl = function (o) {
     var initParams = function (param) {
         prev = "#"+param;
         simplePrev = param;
-        console.log("参数为:"+simplePrev);
     }
 
     //补充传参
@@ -25,7 +24,7 @@ var tomUploadControl = function (o) {
     }
 
     // 打开上传弹窗
-    var toUploadEcgFile = function (id){
+    var toUploadEcgFile = function (){
         switch(simplePrev)
         {
             case "ecg":
@@ -36,7 +35,6 @@ var tomUploadControl = function (o) {
                 break;
             default:
         }
-        tomUploadControl.id = id;
         $('#UploadImage').val("");
         $('#Procebar').css('width','0%');
         $('#Procebar').empty();
@@ -54,7 +52,7 @@ var tomUploadControl = function (o) {
         }
         var formData = new FormData();
         setParams(formData);
-        formData.append("type",simplePrev);
+        formData.append( "id", tomUploadControl.id);
         formData.append(simplePrev+"File",fileInput);
         // 监听事件
         xhr.upload.addEventListener("progress", uploadProgress, false);
@@ -62,7 +60,7 @@ var tomUploadControl = function (o) {
         xhr.addEventListener("error", uploadFailed, false);
         xhr.addEventListener("abort", uploadCanceled, false);
         // 发送文件和表单自定义参数
-        xhr.open("POST", "/api/"+simplePrev+"File");
+        xhr.open("POST", ctx+"/api/"+simplePrev+"File");
         xhr.send(formData);
     }
 
@@ -139,9 +137,11 @@ var tomUploadControl = function (o) {
 
     return{
         upload:doUploadEcgFile,
-        init:function (param) {
+        init:function (param,id,type) {
+            tomUploadControl.id = id;
+            tomUploadControl.type = type;
             initParams(param);
-            toUploadEcgFile();
+            toUploadEcgFile(id);
         },
         min:function(method,id,url,idNamePre){
             lookupMin(method,id,url,idNamePre);
