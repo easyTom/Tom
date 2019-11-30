@@ -89,9 +89,10 @@ var tomMagnifyControl = function () {
                 Img.height = maxHeight  ;   //以框的高度为标准
             }
         }
+
         //居中
-        var h = (fatherHeight - Img.height) / 2
-        $(Img).attr("style","margin-top:"+h+"px");
+        //var h = (fatherHeight - Img.height) / 2
+        //$(Img).attr("style","margin:"+h+"px");
     }
 
     return{

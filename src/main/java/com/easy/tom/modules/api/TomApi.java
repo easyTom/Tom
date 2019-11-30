@@ -1,5 +1,8 @@
 package com.easy.tom.modules.api;
 
+import com.alibaba.druid.util.StringUtils;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.easy.common.utils.IdGen;
 import com.easy.common.utils.ResizeImageUtils;
 import com.easy.tom.system.entity.Attachment;
@@ -8,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -87,6 +92,25 @@ public class TomApi {
                     result.put("result", true);
                 }
             }
+        return ResponseEntity.ok(result);
+    }
+
+    //获取附件
+    @GetMapping("/getFileListData/{id}")
+    public ResponseEntity getFileListData(@PathVariable String id, HttpServletRequest request){
+        Wrapper<Attachment> wrapper = new EntityWrapper();
+        wrapper.eq("BUSINESSID",id);
+        List<Attachment> attList = attService.selectList(wrapper);
+        if(attList!=null && attList.size()>=0){
+            Calendar c = Calendar.getInstance();
+            for (Attachment att : attList) {
+                c.setTime(att.getCreateTime());
+                String tempPath = getCalendarPath(c);
+                att.setUrl(tempPath + att.getActualFileName());
+            }
+        }
+        Map<String, Object> result = new HashMap<>();
+        result.put("result", attList);
         return ResponseEntity.ok(result);
     }
 }

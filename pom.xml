@@ -228,12 +228,6 @@
             <artifactId>thumbnailator</artifactId>
             <version>0.4.8</version>
         </dependency>
-
-        <dependency>
-            <groupId>com.bsc.medical</groupId>
-            <artifactId>notification-client</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
     </dependencies>
 
     <build>

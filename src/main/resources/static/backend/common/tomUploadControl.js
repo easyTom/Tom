@@ -118,15 +118,17 @@ var tomUploadControl = function (o) {
             dataType:   'json',
             async : false,
             success	:	function(data){
+                var data = data.result;
                 if(data){
-                    //当ctx为空的时候需要ctx+/data/ data前面需要加/
-                    var url =  ctx + '/data/'+data.filePath.substring(0,data.filePath.lastIndexOf('.'));
-                    var img = '<div class="col-md-12 col-sm-12 col-xs-12 " style="padding: 0px 0;" >' +
-                        '<a class="thumbnail" style="max-width: 150px" href="' +url+ '.png' + '"  data-magnify>' +
-                        '<img onload="tomMagnifyControl.AutoSize(this,150,150,150)" src="' + url + '_min.png' + '">' +
-                        '</a>' +
-                        '</div>';
-                    $("#"+idNamePre+id).append(img);
+                    for (i in data){
+                        var url =  ctx + 'data/'+data[i].url.substring(0,data[i].url.lastIndexOf('.'));
+                        var img = '<div class="col-md-3 col-sm-3 col-xs-3 " style="padding: 0 0;height: 140px;margin: auto" >' +
+                            '<a class="thumbnail" style="width: 130px;height: 130px" href="' +url+ '.png' + '"  data-magnify>' +
+                            '<img onload="tomMagnifyControl.AutoSize(this,100,100,120)" src="' + url + '_min.png' + '">' +
+                            '</a>' +
+                            '</div>';
+                        $("#"+idNamePre+id).append(img);
+                    }
                 }
             },
             error	:	function(data){

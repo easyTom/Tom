@@ -57,6 +57,7 @@ var subrowControl = function () {
         childEle.show();
         initAtt(rowData);
         initText(rowData);
+        tomMagnifyControl.init(false);
     }
     
     function initText(rowData) {

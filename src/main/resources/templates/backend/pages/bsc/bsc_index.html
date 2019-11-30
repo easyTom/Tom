@@ -7,6 +7,7 @@
 
 <body>
 <section layout:fragment="content">
+<link th:href="@{/backend/spa/jquery.magnify.css}" rel="stylesheet" type="text/css"/>
 	<div class="page-content-wrapper">
 		<div class="page-content">
 			<div class="page-content-body">
@@ -57,10 +58,19 @@
 
 <div th:replace="~{backend/pages/modal/bsc_modal}"/>
 <div th:replace="~{backend/pages/common/tomModal :: tom_upload}" />
-
+<style>
+	.magnify-stage {
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		border-width: 0;
+	}
+</style>
 <script type="text/javascript" charset="utf-8"  th:src="@{/backend/common/tomMagnifyControl.js}"></script>
 <script type="text/javascript" charset="utf-8"  th:src="@{/backend/common/tomUploadControl.js}"></script>
 <script type="text/javascript" charset="utf-8"  th:src="@{/backend/bsc/bsc_list.js}"></script>
+<script type="text/javascript" charset="utf-8"  th:src="@{/backend/spa/jquery.magnify.js}"></script>
 <script type="text/javascript" charset="utf-8"  th:src="@{/backend/spa/exam_list_subrow.js}"></script>
 <script type="text/javascript" charset="utf-8"  th:src="@{/backend/spa/spa_list_subrow_text_control.js}"></script>
 <script type="text/javascript" charset="utf-8"  th:src="@{/backend/spa/spa_list_subrow_att_control.js}"></script>
