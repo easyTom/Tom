@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.easy.tom.modules.memo.mapper.MemoMapper">
+
+	<select id="findTotal" resultType="int">
+		select COUNT(DISTINCT MEMOID) from stu_memo
+        <where>
+            <if test="finished!=null and finished!=''">
+                FINISHED = #{finished}
+            </if>
+            <if test="text!=null and text!=''">
+                text concat('%',#{text},'%')
+            </if>
+        </where>
+	</select>
+
+	<select id="findList" resultType="com.easy.tom.modules.memo.entity.Memo">
+		select *  from  stu_memo
+        <where>
+        <if test="finished!=null and finished!=''">
+            FINISHED = #{finished}
+        </if>
+        <if test="text!=null and text!=''">
+            text concat('%',#{text},'%')
+        </if>
+        </where>
+        ORDER BY FINISHED,CREATETIME desc
+		LIMIT #{startIndex},#{size}
+	</select>
+</mapper>

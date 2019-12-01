@@ -1,6 +1,6 @@
 /**
- *  tom/bsc/XXX
- #  modal_toAddBsc
+ *  tom/memo/XXX
+ #  modal_toAddMemo
  */
 var TableDatatablesManaged = function (){
     var oTable;
@@ -36,25 +36,29 @@ var TableDatatablesManaged = function (){
             "bProcessing": true,
             "bServerSide": true,
             "destroy":true,
-            "sAjaxSource": ctx + "/tom/bsc/list",
+            "sAjaxSource": ctx + "/tom/memo/list",
             "sServerMethod": "POST",
             "fnServerParams": function ( aoData ) {
-                var order=$('#order').val();
-                aoData.push({
-                        "name" : "conditions['order']",
-                        "value" : order
-                    });
             },
             "aoColumns": [
                 { "data": "name","sClass": "text-left" },
                 { "data": "createTime","sClass": "text-center" },
-                { "data": "type","sClass": "text-center" },
-                { "data": "bscId","bSortable": false,"sClass": "text-center" }
+                { "data": "hopeTime","sClass": "text-center" },
+                { "data": "finished","sClass": "text-center" },
+                { "data": "memoId","bSortable": false,"sClass": "text-center" }
             ],
             "createdRow": function ( row, data, index ) {
+                var  str = '<a style="text-decoration:none;" href="javascript:TableDatatablesManaged.del(\'' + data.memoId + '\');">[ 删除 ]</a>';
+                var showHtml = "";
+                if(data.finished == '1'){
+                    showHtml = '<a href="javascript:TableDatatablesManaged.updateStatus(\''+data.memoId+'\',0)" class="label label-sm label-success" > 已完成</a>';
+                }else if(data.finished == '0'){
+                    showHtml = '<a href="javascript:TableDatatablesManaged.updateStatus(\''+data.memoId+'\',1)" class="label label-sm label-default" > 未完成</a>';
+                }
                 $('td',row).eq(1).html(datetimeUtils.datetimeToFormatDatetime(new Date(data.createTime)));
-                var  str = '<a style="text-decoration:none;" href="javascript:TableDatatablesManaged.del(\'' + data.bscId + '\');">[ 删除 ]</a>';
-                $('td',row).eq(3).html(str);
+                $('td',row).eq(2).html(datetimeUtils.datetimeToFormatDatetime(new Date(data.hopeTime)));
+                $('td',row).eq(3).html(showHtml);
+                $('td',row).eq(4).html(str);
                 /*if( $("#initTableRow").val() == data.examId){
                     var open = setInterval(function() {
                         $(`#myTable`).find('tbody').find(`tr:eq(${index})`).find('td:eq(2)').click();
@@ -72,35 +76,7 @@ var TableDatatablesManaged = function (){
               oTable.fnDraw();*/
 
         });
-
-        // 状态
-        $('a[name="btn_status"]').on('click',function(){
-            status = $(this).attr("value");
-            $('#status').val(status);
-            $('#myTable').dataTable().fnClearTable(0);
-            $('#myTable').dataTable().fnDraw();
-        });
-
-        // 为表格添加单击事件
-        /* $('#myTable tbody').on('click', 'td', function () {
-             //最后一行不下拉
-             if(("test"+$(this).html()).indexOf("查看检查单")==-1) {
-
-                 var tr = $(this).closest('tr');
-                 var row = oTable.row(tr);
-                 if (row.child.isShown()) {
-                     // 对已经展开的行进行折叠
-                     row.child.hide();
-                     tr.removeClass('shown');
-                 }
-                 else {
-                     row.child(format(row.data())).show();
-                     tr.addClass('shown');
-                     // resizeImage();
-                 }
-             }
-         } );*/
-        //新版
+        
         $('#myTable tbody').on('click', 'td', function (event) {
             if (this != event.target) return;
             var tr = $(this).closest('tr');
@@ -127,12 +103,12 @@ var TableDatatablesManaged = function (){
 
     }
 
-    var toAddBsc = function () {
-        $('#modal_addBSC').modal();
+    var toAddMemo = function () {
+        $('#modal_addMemo').modal();
     }
 
     var valid = function () {
-        if(!$("#modal_toAddBsc").valid()){
+        if(!$("#modal_toAddMemo").valid()){
             return false;
         }else {
             return true;
@@ -141,18 +117,18 @@ var TableDatatablesManaged = function (){
 
     // 为表单添加校验
     var validateForm = function(){
-        $("#modal_toAddBsc").validate({
+        $("#modal_toAddMemo").validate({
             errorElement: 'span',
             errorClass: 'validate-error',
             focusInvalid: false,
             ignore: "",
             messages: {
                 name:{
-                    required:'任务名称不能为空'
+                    required:'待办事项不能为空'
                 },
                 text:{
-                    required:'任务内容不能为空',
-                    rangelength:'病历摘要不能超过200个字符'
+                    required:'事项内容不能为空',
+                    rangelength:'事项内容不能超过200个字符'
                 }
             },
             rules: {
@@ -177,14 +153,14 @@ var TableDatatablesManaged = function (){
                 var formData = new FormData(form);
                 $.ajax({
                     type	:	"post",
-                    url		:	ctx+"/tom/bsc/doAdd",
+                    url		:	ctx+"/tom/memo/doAdd",
                     data	:	formData,
                     contentType: false,
                     processData: false,
                     dataType:	"json",
                     success	:	function(data){
                         if(data){
-                            $('#modal_addBSC').modal('hide');
+                            $('#modal_addMemo').modal('hide');
                             $('#myTable').dataTable().fnClearTable(0);
                             $('#myTable').dataTable().fnDraw();
                         }else{
@@ -202,10 +178,9 @@ var TableDatatablesManaged = function (){
     var del = function (id) {
         var flag = confirm("确定删除本条数据吗?");
         if (!flag) return false;
-
         $.ajax({
             type	:	"post",
-            url		:	ctx+"/tom/bsc/doDel",
+            url		:	ctx+"/tom/memo/doDel",
             data	:	{"id":id},
             dataType:	"json",
             success	:	function(data){
@@ -222,7 +197,32 @@ var TableDatatablesManaged = function (){
         });
     }
 
-    var flushBsc = function () {
+    var updateStatus = function(id,status) {
+        var formData = new FormData();
+        formData.append("memoId",id);
+        formData.append("finished",status);
+        $.ajax({
+            type	:	"post",
+            url		:	ctx+"/tom/memo/updateStatus",
+            data	:	formData,
+            contentType: false,
+            processData: false,
+            dataType:	"json",
+            success	:	function(data){
+                if(data){
+                    $('#myTable').dataTable().fnClearTable(0);
+                    $('#myTable').dataTable().fnDraw();
+                }else{
+                    alert("修改失败");
+                }
+            },
+            error	:	function(data){
+                console.log(data);
+            }
+        });
+    }
+
+    var flushMemo = function () {
         $('#myTable').dataTable().fnClearTable(0);
         $('#myTable').dataTable().fnDraw();
     }
@@ -235,10 +235,11 @@ var TableDatatablesManaged = function (){
             initTable();
             validateForm();
         },
-        toAddBsc:toAddBsc,
+        toAddMemo:toAddMemo,
         valid:valid,
         del:del,
-        flushBsc:flushBsc
+        flushMemo:flushMemo,
+        updateStatus:updateStatus
     }
 }();
 
