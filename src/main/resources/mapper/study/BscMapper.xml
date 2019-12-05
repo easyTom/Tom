@@ -9,7 +9,7 @@
                 type = #{type}
             </if>
             <if test="text!=null and text!=''">
-                text concat('%',#{text},'%')
+                text like concat('%',#{text},'%')
             </if>
         </where>
 	</select>
@@ -21,7 +21,7 @@
             type = #{type}
         </if>
         <if test="text!=null and text!=''">
-            text concat('%',#{text},'%')
+            text like concat('%',#{text},'%')
         </if>
         </where>
         ORDER BY ${order} ${dir}

@@ -1,9 +1,10 @@
 /**
  *  tom/memo/XXX
- #  modal_toAddMemo
+ #  modal_memo_form
  */
 var TableDatatablesManaged = function (){
     var oTable;
+    var type;
     var initTable = function () {
         var table = $('#myTable');
         oTable = table.DataTable({
@@ -41,14 +42,15 @@ var TableDatatablesManaged = function (){
             "fnServerParams": function ( aoData ) {
             },
             "aoColumns": [
-                { "data": "name","sClass": "text-left" },
-                { "data": "createTime","sClass": "text-center" },
-                { "data": "hopeTime","sClass": "text-center" },
-                { "data": "finished","sClass": "text-center" },
+                { "data": "name","bSortable": false,"sClass": "text-left" },
+                { "data": "createTime","bSortable": false,"sClass": "text-center" },
+                { "data": "hopeTime","bSortable": false,"sClass": "text-center" },
+                { "data": "finished","bSortable": false,"sClass": "text-center" },
                 { "data": "memoId","bSortable": false,"sClass": "text-center" }
             ],
             "createdRow": function ( row, data, index ) {
                 var  str = '<a style="text-decoration:none;" href="javascript:TableDatatablesManaged.del(\'' + data.memoId + '\');">[ 删除 ]</a>';
+                     str += '<a style="text-decoration:none;" href="javascript:TableDatatablesManaged.toUpdateMemo(\'' + data.memoId + '\');">[ 修改 ]</a>';
                 var showHtml = "";
                 if(data.finished == '1'){
                     showHtml = '<a href="javascript:TableDatatablesManaged.updateStatus(\''+data.memoId+'\',0)" class="label label-sm label-success" > 已完成</a>';
@@ -56,7 +58,7 @@ var TableDatatablesManaged = function (){
                     showHtml = '<a href="javascript:TableDatatablesManaged.updateStatus(\''+data.memoId+'\',1)" class="label label-sm label-default" > 未完成</a>';
                 }
                 $('td',row).eq(1).html(datetimeUtils.datetimeToFormatDatetime(new Date(data.createTime)));
-                $('td',row).eq(2).html(datetimeUtils.datetimeToFormatDatetime(new Date(data.hopeTime)));
+                $('td',row).eq(2).html(datetimeUtils.datetimeToDate(new Date(data.hopeTime)));
                 $('td',row).eq(3).html(showHtml);
                 $('td',row).eq(4).html(str);
                 /*if( $("#initTableRow").val() == data.examId){
@@ -104,11 +106,39 @@ var TableDatatablesManaged = function (){
     }
 
     var toAddMemo = function () {
-        $('#modal_addMemo').modal();
+        document.getElementById("modal_memo_form").reset();
+        $('#modal_memo').modal();
+        $("#memo_title").text("新增代办事项");
+        type = "doAdd";
+        $('#modal_memo').modal();
+    }
+    var toUpdateMemo = function (memoId) {
+        $("#memo_title").text("修改代办事项");
+        type = "doUpdate";
+        $.ajax({
+            type	:	"get",
+            url		:	ctx+"/tom/memo/getOne",
+            data	:	{"id":memoId},
+            dataType:	"json",
+            success	:	function(data){
+                if(data){
+                    $("#memoId").val(data.memoId);
+                    $("#name").val(data.name);
+                    $("#hopeTime").val(datetimeUtils.datetimeToDate(new Date(data.hopeTime)));
+                    $("#text").val(data.text);
+                    $('#modal_memo').modal();
+                }else{
+                    alert("获取信息失败，暂无法修改");
+                }
+            },
+            error	:	function(data){
+                console.log(data);
+            }
+        });
     }
 
     var valid = function () {
-        if(!$("#modal_toAddMemo").valid()){
+        if(!$("#modal_memo_form").valid()){
             return false;
         }else {
             return true;
@@ -117,7 +147,7 @@ var TableDatatablesManaged = function (){
 
     // 为表单添加校验
     var validateForm = function(){
-        $("#modal_toAddMemo").validate({
+        $("#modal_memo_form").validate({
             errorElement: 'span',
             errorClass: 'validate-error',
             focusInvalid: false,
@@ -153,18 +183,18 @@ var TableDatatablesManaged = function (){
                 var formData = new FormData(form);
                 $.ajax({
                     type	:	"post",
-                    url		:	ctx+"/tom/memo/doAdd",
+                    url		:	ctx+"/tom/memo/"+type,
                     data	:	formData,
                     contentType: false,
                     processData: false,
                     dataType:	"json",
                     success	:	function(data){
                         if(data){
-                            $('#modal_addMemo').modal('hide');
+                            $('#modal_memo').modal('hide');
                             $('#myTable').dataTable().fnClearTable(0);
                             $('#myTable').dataTable().fnDraw();
                         }else{
-                            alert("新增失败");
+                            alert("操作失败");
                         }
                     },
                     error	:	function(data){
@@ -236,6 +266,7 @@ var TableDatatablesManaged = function (){
             validateForm();
         },
         toAddMemo:toAddMemo,
+        toUpdateMemo:toUpdateMemo,
         valid:valid,
         del:del,
         flushMemo:flushMemo,
@@ -246,5 +277,13 @@ var TableDatatablesManaged = function (){
 if (App.isAngularJsApp() === false) {
     jQuery(document).ready(function() {
         TableDatatablesManaged.init();
+        $("#hopeTime").datepicker({
+            rtl: App.isRTL(),
+            orientation: "left",
+            language: 'zh-CN',
+            format: 'yyyy-mm-dd',
+            startDate: new Date(),
+            autoclose: true
+        });
     });
 }

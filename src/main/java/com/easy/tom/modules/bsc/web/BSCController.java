@@ -74,4 +74,17 @@ public class BSCController {
     public boolean doDel(String id){
         return  iBscService.deleteById(id);
     }
+
+    @ResponseBody
+    @RequestMapping(value="/doUpdate",method= RequestMethod.POST,produces="application/json;charset=utf-8")
+    public boolean doUpdate(Bsc bsc){
+        iBscService.updateById(bsc);
+        return true;
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/getOne",method= RequestMethod.GET,produces="application/json;charset=utf-8")
+    public Bsc getOne(String id){
+        return  iBscService.selectById(id);
+    }
 }

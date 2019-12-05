@@ -5,14 +5,14 @@
     }
 </style>
 <!-- 新增弹窗 -->
-    <div id="modal_addBSC" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div id="modal_bsc" class="modal fade" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog" style="width: 40%;">
             <div class="modal-content">
                 <div class="modal-header" style="border-bottom: none">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                    <h4 class="modal-title text-center">新增Bsc记录</h4>
+                    <h4 id="bsc_title" class="modal-title text-center">新增Bsc记录</h4>
                 </div>
-                <form id="modal_toAddBsc" action="/" method="post" onsubmit="return false;">
+                <form id="modal_bsc_form" action="/" method="post" onsubmit="return false;">
                     <div style="border-top: none">
                         <div class="tab-content">
                             <div class="tab-pane fade active in" id="tab_1_1">
@@ -25,6 +25,7 @@
                                                 </label>
                                                 <div class="col-sm-7">
                                                     <input type="text" maxlength="18" class="form-control" id="name" name="name"/>
+                                                    <input type="hidden" class="form-control" id="bscId" name="bscId"/>
                                                 </div>
                                             </div>
                                         </td>

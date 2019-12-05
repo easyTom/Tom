@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/tom/memo")
@@ -60,11 +62,26 @@ public class MemoController {
         iMemoService.insert(memo);
         return true;
     }
+
+    @ResponseBody
+    @RequestMapping(value="/doUpdate",method= RequestMethod.POST,produces="application/json;charset=utf-8")
+    public boolean doUpdate(Memo memo){
+        iMemoService.updateById(memo);
+        return true;
+    }
     @ResponseBody
     @RequestMapping(value="/doDel",method= RequestMethod.POST,produces="application/json;charset=utf-8")
     public boolean doDel(String id){
         return  iMemoService.deleteById(id);
     }
+
+    @ResponseBody
+    @RequestMapping(value="/getOne",method= RequestMethod.GET,produces="application/json;charset=utf-8")
+    public Memo getOne(String id){
+        return  iMemoService.selectById(id);
+    }
+
+
     @ResponseBody
     @RequestMapping(value="/updateStatus",method= RequestMethod.POST,produces="application/json;charset=utf-8")
     public boolean updateStatus(String memoId,Integer finished){

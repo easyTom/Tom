@@ -1,9 +1,10 @@
 /**
  *  tom/bsc/XXX
- #  modal_toAddBsc
+ #  modal_bsc_form
  */
 var TableDatatablesManaged = function (){
     var oTable;
+    var type;
     var initTable = function () {
         var table = $('#myTable');
         oTable = table.DataTable({
@@ -40,10 +41,20 @@ var TableDatatablesManaged = function (){
             "sServerMethod": "POST",
             "fnServerParams": function ( aoData ) {
                 var order=$('#order').val();
-                aoData.push({
-                        "name" : "conditions['order']",
-                        "value" : order
-                    });
+                var type_bsc=$('#type_bsc').val();
+                var text_bsc=$('#text_bsc').val();
+                aoData.push(
+                    {
+                    "name" : "conditions['order']",
+                    "value" : order
+                    },{
+                    "name" : "conditions['type']",
+                    "value" : type_bsc
+                     },{
+                    "name" : "conditions['text']",
+                    "value" : text_bsc
+                    }
+                  );
             },
             "aoColumns": [
                 { "data": "name","sClass": "text-left" },
@@ -54,7 +65,10 @@ var TableDatatablesManaged = function (){
             "createdRow": function ( row, data, index ) {
                 $('td',row).eq(1).html(datetimeUtils.datetimeToFormatDatetime(new Date(data.createTime)));
                 var  str = '<a style="text-decoration:none;" href="javascript:TableDatatablesManaged.del(\'' + data.bscId + '\');">[ 删除 ]</a>';
+                     str += '<a style="text-decoration:none;" href="javascript:TableDatatablesManaged.toUpdateBsc(\'' + data.bscId + '\');">[ 修改 ]</a>';
                 $('td',row).eq(3).html(str);
+                $('#type_bsc').val("");
+                $('#text_bsc').val("");
                 /*if( $("#initTableRow").val() == data.examId){
                     var open = setInterval(function() {
                         $(`#myTable`).find('tbody').find(`tr:eq(${index})`).find('td:eq(2)').click();
@@ -128,11 +142,40 @@ var TableDatatablesManaged = function (){
     }
 
     var toAddBsc = function () {
-        $('#modal_addBSC').modal();
+        document.getElementById("modal_bsc_form").reset();
+        $('#modal_bsc').modal();
+        $("#bsc_title").text("新增Bsc记录");
+        type = "doAdd";
+        $('#modal_bsc').modal();
+    }
+
+    var toUpdateBsc = function (bscId) {
+        $("#bsc_title").text("修改Bsc记录");
+        type = "doUpdate";
+        $.ajax({
+            type	:	"get",
+            url		:	ctx+"/tom/bsc/getOne",
+            data	:	{"id":bscId},
+            dataType:	"json",
+            success	:	function(data){
+                if(data){
+                    $("#bscId").val(data.bscId);
+                    $("#name").val(data.name);
+                    $("#text").val(data.text);
+                    $(`#type option[value='${data.type}']`).attr("selected","selected");
+                    $('#modal_bsc').modal();
+                }else{
+                    alert("获取信息失败，暂无法修改");
+                }
+            },
+            error	:	function(data){
+                console.log(data);
+            }
+        });
     }
 
     var valid = function () {
-        if(!$("#modal_toAddBsc").valid()){
+        if(!$("#modal_bsc_form").valid()){
             return false;
         }else {
             return true;
@@ -141,7 +184,7 @@ var TableDatatablesManaged = function (){
 
     // 为表单添加校验
     var validateForm = function(){
-        $("#modal_toAddBsc").validate({
+        $("#modal_bsc_form").validate({
             errorElement: 'span',
             errorClass: 'validate-error',
             focusInvalid: false,
@@ -177,18 +220,18 @@ var TableDatatablesManaged = function (){
                 var formData = new FormData(form);
                 $.ajax({
                     type	:	"post",
-                    url		:	ctx+"/tom/bsc/doAdd",
+                    url		:	ctx+"/tom/bsc/"+type,
                     data	:	formData,
                     contentType: false,
                     processData: false,
                     dataType:	"json",
                     success	:	function(data){
                         if(data){
-                            $('#modal_addBSC').modal('hide');
+                            $('#modal_bsc').modal('hide');
                             $('#myTable').dataTable().fnClearTable(0);
                             $('#myTable').dataTable().fnDraw();
                         }else{
-                            alert("新增失败");
+                            alert("操作失败");
                         }
                     },
                     error	:	function(data){
@@ -222,7 +265,8 @@ var TableDatatablesManaged = function (){
         });
     }
 
-    var flushBsc = function () {
+    var getByType = function (type) {
+        $("#type_bsc").val(type);
         $('#myTable').dataTable().fnClearTable(0);
         $('#myTable').dataTable().fnDraw();
     }
@@ -236,9 +280,10 @@ var TableDatatablesManaged = function (){
             validateForm();
         },
         toAddBsc:toAddBsc,
+        toUpdateBsc:toUpdateBsc,
         valid:valid,
         del:del,
-        flushBsc:flushBsc
+        getByType:getByType
     }
 }();
 

@@ -21,6 +21,29 @@
 						</li>
 					</ul>
 				</div>
+
+				<div class="bordered hidden-sm hidden-xs">
+					<div class="portlet-body form">
+						<form class="form-inline" role="form">
+							<div class="form-body">
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label class="control-label">内容：</label>
+											<input  class="form-control" id="text_bsc"  placeholder="请输入关键词">
+										</div>
+										<button type="button" class="btn btn-info" onclick="TableDatatablesManaged.getByType('')"><i class="fa fa-search"></i> 查询</button>
+										<button type="button" class="btn btn-info" onclick="TableDatatablesManaged.getByType('修改BUG')"> 修改BUG </button>
+										<button type="button" class="btn btn-info" onclick="TableDatatablesManaged.getByType('新增功能')"> 新增功能 </button>
+										<button type="button" class="btn btn-info" onclick="TableDatatablesManaged.getByType('部署更新')"> 部署更新 </button>
+										<input type="hidden" class="form-control" id="type_bsc" name="type_bsc"/>
+									</div>
+								</div>
+
+							</div>
+						</form>
+					</div>
+				</div>
 				<div class="portlet light">
 					<div class="portlet-title">
 						<div class="caption">
