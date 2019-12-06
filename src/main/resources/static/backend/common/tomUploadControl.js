@@ -122,11 +122,37 @@ var tomUploadControl = function (o) {
                 if(data){
                     for (i in data){
                         var url =  ctx + 'data/'+data[i].url.substring(0,data[i].url.lastIndexOf('.'));
-                        var img = '<div class="col-md-3 col-sm-3 col-xs-3 " style="padding: 0 0;height: 140px;margin: auto" >' +
+                       /* var img = '<div class="col-md-3 col-sm-3 col-xs-3 " style="padding: 0 0;height: 140px;margin: auto" >' +
                             '<a class="thumbnail" style="width: 130px;height: 130px" href="' +url+ '.png' + '"  data-magnify>' +
                             '<img onload="tomMagnifyControl.AutoSize(this,100,100,120)" src="' + url + '_min.png' + '">' +
                             '</a>' +
-                            '</div>';
+                            '</div>';*/
+                        var img = `<div class="col-sm-3 col-xs-6">
+                                        <div class="mt-card-item">
+                                            <div class="mt-card-avatar mt-overlay-4">
+                                                <div class="m-grid m-grid-demo">
+                                                    <div class="m-grid-row">
+                                                        <div class="m-grid-col m-grid-col-middle m-grid-col-center">
+                                                                <a href="${url}.png"  data-magnify >
+                                                                    <img style="max-width: 100%;max-height: 100%;"src="${url}_min.png"/>
+                                                                </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-overlay">
+                                                    <div class="mt-info font-white">
+                                                        <div class="mt-card-content">
+                                                            <div class="mt-card-social text-center">
+                                                                <a class="mt-card-btn" href="javascript:;" >
+                            删除
+                            </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>`;
                         $("#"+idNamePre+id).append(img);
                     }
                 }
