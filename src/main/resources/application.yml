@@ -63,3 +63,6 @@ core.security.shiro:
     /tom/**: anon
 #文件保存前缀
 tom.files.path: D:/easyTomFiles/
+server:
+  session:
+    timeout: 86400

@@ -1,0 +1,68 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<style>
+    .validate-error {
+        color: red !important;
+    }
+</style>
+<!-- 新增弹窗 -->
+    <div id="modal_mistake" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" style="width: 40%;">
+            <div class="modal-content">
+                <div class="modal-header" style="border-bottom: none">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 id="mistake_title" class="modal-title text-center">新增错误记录</h4>
+                </div>
+                <form id="modal_mistake_form" action="/" method="post" onsubmit="return false;">
+                    <div style="border-top: none">
+                        <div class="tab-content">
+                            <div class="tab-pane fade active in" id="tab_1_1">
+                                <table class="table table-bordered table-hover gtreetable gtreetable-fullAccess" style="font-size:14px;">
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3 text-right" >
+                                                    错误名称:<span class="required">*</span>
+                                                </label>
+                                                <div class="col-sm-7">
+                                                    <input type="text" maxlength="18" class="form-control" id="name" name="name"/>
+                                                    <input type="hidden" class="form-control" id="mistakeId" name="mistakeId"/>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3 text-right" >
+                                                    错误等级:
+                                                </label>
+                                                <div class="col-sm-7">
+                                                    <input type="text" maxlength="1" class="form-control" id="level" name="level"/>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-3 text-right" >
+                                                    错误内容: <span class="required">*</span>
+                                                </label>
+                                                <div class="col-sm-7">
+                                                    <textarea   style="resize:none;" cols="10" rows="10" class="form-control" name="text" id="text" ></textarea>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="border: 0px;">
+                        <button type="submit" onclick="TableDatatablesManaged.valid();" class="btn green">确定</button>
+                        <button type="button" data-dismiss="modal" class="btn dark btn-outline">关闭</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

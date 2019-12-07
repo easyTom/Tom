@@ -1,6 +1,5 @@
 package com.easy.tom.modules.api;
 
-import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.easy.common.utils.IdGen;
@@ -11,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.util.WebUtils;
@@ -23,10 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @method:无需验证的方法
@@ -43,6 +36,12 @@ public class TomApi {
     //从时间中获取路径
     public String getCalendarPath(Calendar c){
         return c.get(Calendar.YEAR) + "/" + (((c.get(Calendar.MONTH) + 1) + "").length() < 2 ? ("0" + (c.get(Calendar.MONTH) + 1)) : (c.get(Calendar.MONTH) + 1)) + "/" + ((c.get(Calendar.DAY_OF_MONTH) + "").length() < 2 ? ("0" + c.get(Calendar.DAY_OF_MONTH)) : c.get(Calendar.DAY_OF_MONTH)) + "/";
+    }
+    public String getFileRealPathByCreateTime(Date time,String name){
+        Calendar c = Calendar.getInstance();
+            c.setTime(time);
+            String tempPath = getCalendarPath(c);
+            return tempPath + name;
     }
 
     // 上传附件
@@ -111,6 +110,20 @@ public class TomApi {
         }
         Map<String, Object> result = new HashMap<>();
         result.put("result", attList);
+        return ResponseEntity.ok(result);
+    }
+
+    @DeleteMapping("/deleteFile/{fileName}")
+    public ResponseEntity deleteFile(@PathVariable String fileName){
+        Map<String, Object> result = new HashMap<>();
+        result.put("result", false);
+        Wrapper<Attachment> wrapper = new EntityWrapper();
+        wrapper.eq("ACTUALFILENAME",fileName);
+        Attachment att = attService.selectOne(wrapper);
+        if(att!=null){
+            String path = getFileRealPathByCreateTime(att.getCreateTime(),fileName);
+            result.put("result", true);
+        }
         return ResponseEntity.ok(result);
     }
 }

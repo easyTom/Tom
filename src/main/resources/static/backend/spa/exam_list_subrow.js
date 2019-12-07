@@ -6,7 +6,12 @@ var subrowControl = function () {
     function subrowFormat(eventData) {
         var row = eventData.row;
         var rowData = row.data();
-        var bscId = rowData.bscId;
+        var id = "";
+        for (var key in rowData){
+            id = rowData[key];
+            break;
+        }
+        rowData.id = id;
         var childEle = row.child(`<div class="row">
                        <div class="col-md-12">
                             <!-- BEGIN Portlet PORTLET-->
@@ -21,10 +26,10 @@ var subrowControl = function () {
                                                         <i class="fa fa-photo"></i> 相关附件 </div>
                                                 </div>
                                                 <div class="portlet-body" style="height:230px!important;" >
-                                                    <div class="row bottom text-center" id="att_${bscId}" style="margin-bottom: 10px" >
+                                                    <div class="row bottom text-center" id="att_${id}" style="margin-bottom: 10px" >
                                                         
                                                     </div>
-                                                    <div style="max-height:170px!important;overflow-y: auto" class="spa_subrow pre-scrollable " id="spa_attchments_${bscId}">
+                                                    <div style="max-height:170px!important;overflow-y: auto" class="spa_subrow pre-scrollable " id="spa_attchments_${id}">
                                                     
                                                     </div>
                                                 </div>
@@ -39,10 +44,10 @@ var subrowControl = function () {
                                                         <i class="fa fa-text-width"></i> 详细信息 </div>
                                                 </div>
                                                 <div class="portlet-body" style="height:230px!important;">
-                                                        <div style="max-height:220px!important;overflow: hidden" class="spa_subrow pre-scrollable" id="seriesPics_${bscId}">
+                                                        <div style="max-height:220px!important;overflow: hidden" class="spa_subrow pre-scrollable" id="seriesPics_${id}">
                                                         
 </div>
-                                                       <div class="col-md-12 text-center" id="seriesPics1_${bscId}"  style="padding: 0"></div>
+                                                       <div class="col-md-12 text-center" id="seriesPics1_${id}"  style="padding: 0"></div>
                                                         <div style="clear:both;" ></div>
                                                 </div>
                                             </div>

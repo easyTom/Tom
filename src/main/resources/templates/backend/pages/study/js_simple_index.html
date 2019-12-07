@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{backend/layouts/default}">
+
+<head th:include="backend/layouts/default :: htmlhead" th:with="title='bsc'">
+</head>
+
+<body>
+<section layout:fragment="content">
+    <!-- BEGIN CONTENT -->
+    <div class="page-content-wrapper">
+        <div class="page-content">
+
+            <div class="page-bar">
+                <ul class="page-breadcrumb">
+                    <li>
+                        <i class="fa fa-home"></i>
+                        <a th:href="@{/tom/index}">首页</a>
+                        <i class="fa fa-angle-right"></i>
+                    <li>
+                        Js基础知识
+                    </li>
+                </ul>
+            </div>
+
+            <div class="portlet light ">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-calendar"></i>
+                        <span class="caption-subject bold uppercase"> Js基础知识</span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <table class="table table-striped table-bordered table-hover order-column" id="MyTable">
+                        <thead>
+                        <tr>
+                            <th>标题</th>
+                            <th>内容</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th>*理论知识</th>
+                            <th>
+                                各种理论知识
+                            </th>
+                            <th><a onclick="javascript:show(0)">查看</a></th>
+                        </tr>
+                        <tr>
+                            <th>加载顺序</th>
+                            <th style="max-width: 700px">$(function(){})是在页面的dom结构加载完毕后就触发 dom里的内容不一定都已经加载完成</br>
+                                比如说一个页面有好多图片 而加载这些图片需要一定的时间</br>
+
+                                window.onload = function () {
+                                }必须得等到全部的图片都加载完成后才能触发</br>
+
+                            </th>
+                            <th><a onclick="javascript:show(1)">查看</a></th>
+                        </tr>
+                        <tr>
+                            <th>jQuery与DOM互相转换</th>
+                            <th>
+                                <ul id="test2">
+                                    <li>1111</li>
+                                    <li>2222</li>
+                                    <li>3333</li>
+                                </ul>
+                            </th>
+                            <th><a onclick="javascript:show(2)">查看</a></th>
+                        </tr>
+                        <tr>
+                            <th>判断存在否</th>
+                            <th>
+                                if(XXX.length > 0){XXXX}可以判断XXX是否存在。
+                            </th>
+                            <th>略</th>
+                        </tr>
+                        <tr>
+                            <th>jQuery与DOM互相转换</th>
+                            <th>
+                            </th>
+                            <th><a onclick="javascript:show(3)">查看</a></th>
+                        </tr>
+                        <tr>
+                            <th>jQuery与DOM互相转换</th>
+                            <th>
+                            </th>
+                            <th><a onclick="javascript:show(3)">查看</a></th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div  id="m0" class="modal fade" role="dialog"  tabindex="-1" aria-hidden="true" style="margin: auto;">
+                    <div class="modal-dialog" style="width: 80%" >
+                        <div class="modal-content" style="min-height: 400px;padding: 20px">
+                            <p>ID选择器会对参数字符串进行解析执行效率比document那种差很多</p>
+                            <p>id="a.b"  获取：$("#a\\.b")     id="[div]" 获取：$("#\\[div\\]")因为JQ用正则匹配参数。而document不用考虑转义</p>
+                            <p>层级选择器：
+                            <ul>
+                                <li>包含选择器  A BB 表示匹配A下所有BB</li>
+                                <li>子选择器  A>BB 表示匹配A下子类BB</li>
+                                <li>相邻选择器  A+BB 表示匹配跟着A后面的BB</li>
+                                <li>兄弟选择器  A~BB 表示匹配A同辈的BB</li>
+                            </ul>
+                            </p>
+                            <p>子元素选择器：
+                            <ul>
+                                <li>:nth-child(N/even/odd) 父元素的 第N/偶/奇元素</li>
+                                <li>:first/last-child 父元素的第一/最后一 个子元素</li>
+                                <li>:only-child 如果谁是父元素唯一子元素才会被匹配</li>
+                            </ul>
+                            </p>
+                            <p>定位过滤器：
+                            <ul>
+                                <li>:first/:last/:even/:odd 匹配第一个/最后一个/偶数索引行135/奇数索引行246</li>
+                                <li>:eq/:gt/:lt/:header 匹配等于/大于/索引的元素  匹配标题元素h1 h2 h3这种</li>
+                                <li>:not 去除匹配的元素  $("input:not(:checked)")所有没选中的input</li>
+                            </ul>
+                            </p>
+                            <p>内容过滤器：
+                            <ul>
+                                <li>:contains包含指定文本的元素</li>
+                                <li>:empty匹配空元素</li>
+                                <li>:has含有XXX元素的元素</li>
+                                <li>:parent含有子元素或者文本的元素</li>
+                            </ul>
+                            </p>
+                            <p>可见过滤器：
+                            <ul>
+                                <li>:hidden/:visible  所有 不可见/可见 的元素</li>
+                            </ul>
+                            </p>
+                            <p>属性选择器：
+                            <ul>
+                                <li>X[XXX] 含有XXX属性的X元素</li>
+                                <li>X[XXX=?] X元素的XXX属性是?的元素</li>
+                                <li>XXX和=之前  !/^/$/*  属性 不是/以开头/以结尾/包含</li>
+                                <li>X[XXX][XXXXX] 同时满足多个条件</li>
+                            </ul>
+                            </p>
+                            <p>选择器最快的是ID → 类型 最慢是Class 因为得内核外递归</p>
+                            <p>
+                                选择多个不同条件的元素 一个class为红一个为蓝
+                                document.querySelectorAll("li.red,li.blue");
+                                方法：querySelectorAll所有   querySelector第一个
+                            </p>
+                            <!-- DTD规定块级元素是不能放在P里;P标签内包含块元素时，它会先结束自己 -->
+                           <!-- <p style="display: block;height: 200px;width: 80%;position: relative;">-->
+                                <div id="donghua" style="position: relative;width: 80%;height: 100px;" >
+                                    <div class="red" style="width: 100px;height: 100px;background:red;position: absolute;z-index: 2;left: 120px;"></div>
+                                    <div style="width: 100px;height: 100px;background: #0d6aad;position: absolute;left: 0px"></div>
+                                    <div style="width: 100px;height: 100px;background: #00a65a;position: absolute;left: 360px"></div>
+                                    <div style="width: 100px;height: 100px;background: #1AA094;position: absolute;left: 240px"></div>
+                                </div>
+                            <!--</p>-->
+                            <p>XXX.eq(X)表示 获取第X+1个XXX元素</p>
+                            <p>.filter(XXX)过滤元素 用,分割   .not(XX)排除XX</p>
+                            <p>
+                                map(callback) 会在每个元素调用，并返回新的JQ
+                                例子：$("p").append($("input")<strong>.map(
+                                function(){return $(this).val()}).get().join(",")</strong>);
+                                );
+                            </p>
+                            <p>slice()截取 0开始 负数从后开始 包前不包后</p>
+                            <p>查找：
+                            <ul>
+                                <li>
+                                    向下查找：
+                                        DOM: childNodes/firstChild/childElementCount/firstElementChild
+                                             所有子节点、第一个子节点、子元素个数，第一个子元素
+                                        JQ: children(XX)/contents()/find(XX)  XX为过滤条件
+                                            所有子元素/子元素，文本节点等 跟 childNodes一样/所有后代元素
+                                </li>
+                                <li>
+                                    向上查找：
+                                        DOM:parentNode 父元素
+                                        JQ:
+                                            parents(XX) 祖先元素
+                                            parent(XX) 父元素
+                                            parentsUntil(XX) 部分祖先XX没有就是所有祖先
+                                </li>
+                                <li>
+                                    向前查找：
+                                        prev(XX)/prevAll(XX)/prevUntil(XX)
+                                        上一个兄弟，所有兄弟，直到XX的兄弟
+                                </li>
+                                <li>
+                                    同辈元素：
+                                        siblings(XX)所有同辈
+                                </li>
+                            </ul>
+                            </p>
+                            <p> add(XXxx) 添加到当前JQ里</p>
+                            <p>合并addBack() 将前后不同的JQ链接在一起</p>
+                            <p>end()返回操作之前匹配的JQ</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+
+            <div  id="m1" class="modal fade" role="dialog"  tabindex="-1" aria-hidden="true" style="margin: auto;">
+                <div class="modal-dialog" style="width: 80%" >
+                    <div class="modal-content" style="min-height: 400px;padding: 20px">
+                        <p> window.onload = function () { alert("window.onload")  }</p>
+                        <p> $(function () {
+                        alert("$(function () {});")
+                        });</p>
+                        <p>效果： 先弹出$(function () {}); 后弹出window.onload</p>
+                    </div>
+                </div>
+            </div>
+            <div  id="m2" class="modal fade" role="dialog"  tabindex="-1" aria-hidden="true" style="margin: auto;">
+                <div class="modal-dialog" style="width: 80%" >
+                    <div class="modal-content" style="min-height: 400px;padding: 20px">
+                        <p><a onclick="javascript:test2()">JQ转DOM</a>&nbsp;&nbsp;&nbsp; → &nbsp;&nbsp;&nbsp;
+                        <a onclick="javascript:test3()">DOM转JQ</a></p>
+                        <div id="t2" style="display: none">
+                            <p>var li = $("#test2 li");</p>
+                            <p><strong>var l = li[0]; </strong></p>
+                            <p><strong>var l1 = li.get(0); </strong></p>
+                            <p><strong>通过get(i)或者[i]下标获取</strong></p>
+                        </div>
+                        <div id="t3" style="display: none">
+                            <p>var li = document.getElementById("test2").getElementsByTagName("li");</p>
+                            <p><strong>var l = $(li[0]);</strong></p>
+                            <p><strong>也就是将DOM传给$()函数</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div  id="m3" class="modal fade" role="dialog"  tabindex="-1" aria-hidden="true" style="margin: auto;">
+                <div class="modal-dialog" style="width: 80%" >
+                    <div class="modal-content" style="min-height: 400px;padding: 20px">
+                        <p>点击查看获取li</p>
+                        <p><a onclick="javascript:test2()">查看</a></p>
+                    </div>
+                </div>
+             </div>
+        </div>
+    </div>
+
+</section>
+<script type="text/javascript" charset="utf-8"  th:src="@{/backend/study/js_test.js}"></script>
+</body>
+</html>

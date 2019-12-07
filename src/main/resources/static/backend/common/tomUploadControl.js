@@ -122,12 +122,7 @@ var tomUploadControl = function (o) {
                 if(data){
                     for (i in data){
                         var url =  ctx + 'data/'+data[i].url.substring(0,data[i].url.lastIndexOf('.'));
-                       /* var img = '<div class="col-md-3 col-sm-3 col-xs-3 " style="padding: 0 0;height: 140px;margin: auto" >' +
-                            '<a class="thumbnail" style="width: 130px;height: 130px" href="' +url+ '.png' + '"  data-magnify>' +
-                            '<img onload="tomMagnifyControl.AutoSize(this,100,100,120)" src="' + url + '_min.png' + '">' +
-                            '</a>' +
-                            '</div>';*/
-                        var img = `<div class="col-sm-3 col-xs-6">
+                        var img = `<div class="col-sm-3 col-xs-6" style="margin-bottom: 5px">
                                         <div class="mt-card-item">
                                             <div class="mt-card-avatar mt-overlay-4">
                                                 <div class="m-grid m-grid-demo">
@@ -163,6 +158,25 @@ var tomUploadControl = function (o) {
         });
     }
 
+    var del = function (fileName,url,callback) {
+        $.ajax({
+            type	:	"delete",
+            url		:	url,
+            data	:	{"fileName":fileName},
+            dataType:	"json",
+            success	:	function(data){
+                if(data.result){
+                    callback();
+                }else{
+                    alert("获取信息失败，暂无法修改");
+                }
+            },
+            error	:	function(data){
+                console.log(data);
+            }
+        });
+    }
+
     return{
         upload:doUploadEcgFile,
         init:function (param,id,type) {
@@ -174,6 +188,7 @@ var tomUploadControl = function (o) {
         min:function(method,id,url,idNamePre){
             lookupMin(method,id,url,idNamePre);
         },
+        del:del,
     }
 }(123);
 //()内作为参数可以作为参数传入方法
