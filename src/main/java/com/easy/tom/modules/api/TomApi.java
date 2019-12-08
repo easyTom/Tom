@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.easy.common.utils.IdGen;
 import com.easy.common.utils.ResizeImageUtils;
 import com.easy.tom.system.entity.Attachment;
+import com.easy.tom.system.service.IAttachmentService;
 import com.easy.tom.system.service.impl.AttachmentService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -24,14 +26,14 @@ import java.util.*;
 /**
  * @method:无需验证的方法
  */
-@Controller
+@RestController
 @RequestMapping("/api")
 public class TomApi {
 
     @Value("${tom.files.path}")
     private String path;
     @Autowired
-    private AttachmentService attService;
+    private IAttachmentService iAttService;
 
     //从时间中获取路径
     public String getCalendarPath(Calendar c){
@@ -40,7 +42,7 @@ public class TomApi {
     public String getFileRealPathByCreateTime(Date time,String name){
         Calendar c = Calendar.getInstance();
             c.setTime(time);
-            String tempPath = getCalendarPath(c);
+            String tempPath = path+getCalendarPath(c);
             return tempPath + name;
     }
 
@@ -87,7 +89,7 @@ public class TomApi {
                     att.setOriginalFileName(multipartFile.getOriginalFilename());
                     att.setFileSize(multipartFile.getSize());
                     att.setFileType(multipartFile.getContentType());
-                    attService.insert(att);
+                    iAttService.insert(att);
                     result.put("result", true);
                 }
             }
@@ -99,7 +101,7 @@ public class TomApi {
     public ResponseEntity getFileListData(@PathVariable String id, HttpServletRequest request){
         Wrapper<Attachment> wrapper = new EntityWrapper();
         wrapper.eq("BUSINESSID",id);
-        List<Attachment> attList = attService.selectList(wrapper);
+        List<Attachment> attList = iAttService.selectList(wrapper);
         if(attList!=null && attList.size()>=0){
             Calendar c = Calendar.getInstance();
             for (Attachment att : attList) {
@@ -113,17 +115,30 @@ public class TomApi {
         return ResponseEntity.ok(result);
     }
 
-    @DeleteMapping("/deleteFile/{fileName}")
-    public ResponseEntity deleteFile(@PathVariable String fileName){
+    @DeleteMapping("/deleteFile")
+    public ResponseEntity deleteFile(String fileName){
         Map<String, Object> result = new HashMap<>();
         result.put("result", false);
         Wrapper<Attachment> wrapper = new EntityWrapper();
         wrapper.eq("ACTUALFILENAME",fileName);
-        Attachment att = attService.selectOne(wrapper);
+        Attachment att = iAttService.selectOne(wrapper);
+        String filePath = "";
         if(att!=null){
-            String path = getFileRealPathByCreateTime(att.getCreateTime(),fileName);
+             filePath = getFileRealPathByCreateTime(att.getCreateTime(),fileName);
             result.put("result", true);
         }
+        if(StringUtils.isEmpty(filePath)){
+            return  ResponseEntity.ok(result);
+        }
+        File file = new File(filePath);
+        if(file.exists()){
+            file.delete();
+        }
+        File minFile = new File(filePath.substring(0,filePath.lastIndexOf("."))+"_min.png");
+        if(minFile.exists()){
+            minFile.delete();
+        }
+        iAttService.deleteById(att.getAttId());
         return ResponseEntity.ok(result);
     }
 }

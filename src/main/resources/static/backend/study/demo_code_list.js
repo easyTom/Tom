@@ -57,8 +57,8 @@ var TableDatatablesManaged = function (){
             ],
             "createdRow": function ( row, data, index ) {
                 $('td',row).eq(1).html(datetimeUtils.datetimeToFormatDatetime(new Date(data.createTime)));
-                var  str = '<a style="text-decoration:none;" href="javascript:TableDatatablesManaged.del(\'' + data.demoCodeId + '\');">[ 删除 ]</a>';
-                     str += '<a style="text-decoration:none;" href="javascript:TableDatatablesManaged.toUpdateCode(\'' + data.demoCodeId + '\');">[ 修改 ]</a>';
+                var  str = '<a style="text-decoration:none;" href="javascript:TableDatatablesManaged.del(\'' + data.codeId + '\');">[ 删除 ]</a>';
+                     str += '<a style="text-decoration:none;" href="javascript:TableDatatablesManaged.toUpdateCode(\'' + data.codeId + '\');">[ 修改 ]</a>';
                 $('td',row).eq(3).html(str);
                 /*if( $("#initTableRow").val() == data.examId){
                     var open = setInterval(function() {

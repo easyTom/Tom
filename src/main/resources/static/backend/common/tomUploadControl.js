@@ -7,7 +7,7 @@
  *
  */
 var tomUploadControl = function (o) {
-    console.log("括号传过来的参数为:"+o);
+    //console.log("括号传过来的参数为:"+o);
     var prev = "";
     var simplePrev = "";
     var xhr = new XMLHttpRequest();
@@ -112,6 +112,7 @@ var tomUploadControl = function (o) {
 
     //根据id回显缩略图 点击放大   方法,主键,路径,追加选择器前缀
     var lookupMin = function (method,id,url,idNamePre) {
+        $("#"+idNamePre+id).html("");
         $.ajax({
             type	:	method,
             url		:	url,
@@ -139,7 +140,9 @@ var tomUploadControl = function (o) {
                                                         <div class="mt-card-content">
                                                             <div class="mt-card-social text-center">
                                                                 <a class="mt-card-btn" href="javascript:;" >
+                            <a class="mt-card-btn" href="javascript:;" onclick="tomUploadControl.del('${data[i].actualFileName}')">
                             删除
+                        </a>
                             </a>
                                                             </div>
                                                         </div>
@@ -158,15 +161,16 @@ var tomUploadControl = function (o) {
         });
     }
 
-    var del = function (fileName,url,callback) {
+    var del = function (fileName) {
+        var flag = confirm("确定删除这个附件吗,小阿Giao?");
+        if(!flag) return false;
         $.ajax({
             type	:	"delete",
-            url		:	url,
-            data	:	{"fileName":fileName},
+            url		:	ctx + "api/deleteFile?fileName="+fileName,
             dataType:	"json",
             success	:	function(data){
                 if(data.result){
-                    callback();
+                    tomUploadControl.min("GET", tomUploadControl.id ,ctx + "api/getFileListData/" +  tomUploadControl.id ,"spa_attchments_");
                 }else{
                     alert("获取信息失败，暂无法修改");
                 }
@@ -186,6 +190,7 @@ var tomUploadControl = function (o) {
             toUploadEcgFile(id);
         },
         min:function(method,id,url,idNamePre){
+            tomUploadControl.id = id;
             lookupMin(method,id,url,idNamePre);
         },
         del:del,

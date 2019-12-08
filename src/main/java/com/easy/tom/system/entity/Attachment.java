@@ -1,6 +1,7 @@
 package com.easy.tom.system.entity;
 
 import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import lombok.Data;
 
@@ -9,6 +10,8 @@ import java.util.Date;
 @Data
 @TableName("u_attachment")
 public class Attachment implements Serializable {
+    private static final long serialVersionUID = 1L;
+    @TableId
     private String attId;
 
     private String businessId;
@@ -25,6 +28,5 @@ public class Attachment implements Serializable {
     @TableField(exist=false)
     private String url;
     
-	private static final long serialVersionUID = 1L;
 
 }
