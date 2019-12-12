@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{backend/layouts/default}">
+
+<head th:include="backend/layouts/default :: htmlhead" th:with="title='bsc'">
+</head>
+
+<body>
+<section layout:fragment="content">
+	<div class="page-content-wrapper">
+		<div class="page-content">
+
+			<div class="page-bar">
+				<ul class="page-breadcrumb">
+					<li>
+						<i class="fa fa-home"></i>
+						<a th:href="@{/tom/index}">首页</a>
+						<i class="fa fa-angle-right"></i>
+						<a th:href="@{/tom/game/pandadastudio}">忍者必须死3</a>
+					</li>
+				</ul>
+			</div>
+
+			<div class="portlet box grey-cararra">
+				<div class="portlet-title">
+					<div class="caption">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6" id="uid">
+					<p>柠檬id:<span>601077213</span>自己id:<span>317214042</span></p>
+					<p>还没睡id:<span>616792973</span></p>
+				</div>
+				<div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6" >
+					<div class="col-md-10">
+						<div class="form-group">
+							<label class="control-label">兑换码：</label>
+							<input class="form-control"   id="dhm" placeholder="请输入兑换码">
+						</div>
+						<button type="button"  onclick="goto()" class="btn btn-info" ><i class="fa fa-link"></i> 跳转兑换</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+        function goto() {
+            var uid="";
+            $("#uid span").each(function () {
+
+                console.log($(this))
+                uid+="和"+$(this).text();
+            });
+            var url = "http://statistics.pandadastudio.com/player/giftCodeView";
+            var dhm = $("#dhm").val();
+            uid = uid .substring(1);
+            url += "?用户uid:"+uid+"&兑换码:"+dhm;
+           window.open(url);
+        }
+	</script>
+<style>
+	#uid span{
+		font-size: 25px;
+		font-weight: bolder;
+		margin-right: 5px;
+	}
+</style>
+</section>
+</body>
+</html>

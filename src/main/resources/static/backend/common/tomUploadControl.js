@@ -8,15 +8,17 @@
  */
 var tomUploadControl = function (o) {
     //console.log("括号传过来的参数为:"+o);
-    var prev = "";
-    var simplePrev = "";
+    //只上传图片时候可以启用
+   /* var prev = "";
+    var simplePrev = "";*/
     var xhr = new XMLHttpRequest();
 
     //初始化前缀参数。 根据此参数拼接
-    var initParams = function (param) {
+    //只上传图片时候可以启用
+   /* var initParams = function (param) {
         prev = "#"+param;
         simplePrev = param;
-    }
+    }*/
 
     //补充传参
     var setParams = function (formData) {
@@ -24,43 +26,49 @@ var tomUploadControl = function (o) {
     }
 
     // 打开上传弹窗
-    var toUploadEcgFile = function (){
-        switch(simplePrev)
+    var toUploadFile = function (){
+        //只上传图片时候可以启用
+       /* switch(simplePrev)
         {
-            case "ecg":
-                $("#UploadImage").attr("accept",".xml");
-                break;
             case "photo":
                 $("#UploadImage").attr("accept",".jpg,.png,.gif,.bmp");
                 break;
             default:
-        }
+                $("#UploadImage").attr("accept","*");
+        }*/
         $('#UploadImage').val("");
         $('#Procebar').css('width','0%');
         $('#Procebar').empty();
-        $("#h4").html("上传" + simplePrev);
-        $("#h5").html("上传" + simplePrev + "<span class='required' aria-required='true'> * </span>");
+        $("#h4").html("附件上传");
+        $("#h5").html("附件上传" + "<span class='required' aria-required='true'> * </span>");
         $('#Modal').modal();
     }
 
     //上传
-    var doUploadEcgFile = function (){
+    var doUploadFile = function (){
         var fileInput = document.getElementById("UploadImage").files[0];
         if(fileInput == "" || fileInput == null){
             bootbox.alert("请选择上传文件!");
             return false;
         }
+        var name = fileInput.name;
+        var apiPre = "";
+        if(name.endsWith(".bmp")||name.endsWith(".png")||name.endsWith(".gif")||name.endsWith(".jpg")){
+            apiPre = "photoFile";
+        }else{
+            apiPre = "fileFile";
+        }
         var formData = new FormData();
         setParams(formData);
         formData.append( "id", tomUploadControl.id);
-        formData.append(simplePrev+"File",fileInput);
+        formData.append(apiPre,fileInput);
         // 监听事件
         xhr.upload.addEventListener("progress", uploadProgress, false);
         xhr.addEventListener("load", uploadComplete, false);
         xhr.addEventListener("error", uploadFailed, false);
         xhr.addEventListener("abort", uploadCanceled, false);
         // 发送文件和表单自定义参数
-        xhr.open("POST", ctx+"/api/"+simplePrev+"File");
+        xhr.open("POST", ctx+"/api/"+apiPre);
         xhr.send(formData);
     }
 
@@ -123,15 +131,23 @@ var tomUploadControl = function (o) {
                 if(data){
                     for (i in data){
                         var url =  ctx + 'data/'+data[i].url.substring(0,data[i].url.lastIndexOf('.'));
-                        var img = `<div class="col-sm-3 col-xs-6" style="margin-bottom: 5px">
+                        var downloadUrl =  ctx + 'api/downFileByName?fileName='+data[i].actualFileName;
+                        var file ="";
+                        if(data[i].url.endsWith("png")){
+                             file = ` <a href="${url}.png"  data-magnify >
+                                          <img style="max-width: 100%;max-height: 100%;"src="${url}_min.png"/>
+                                         </a>`;
+                        }else{
+                            file = ` <a target="_blank" href="${downloadUrl}">${data[i].actualFileName}</a>`;
+                        }
+
+                        var div = `<div class="col-sm-3 col-xs-6" style="margin-bottom: 5px">
                                         <div class="mt-card-item">
                                             <div class="mt-card-avatar mt-overlay-4">
                                                 <div class="m-grid m-grid-demo">
                                                     <div class="m-grid-row">
                                                         <div class="m-grid-col m-grid-col-middle m-grid-col-center">
-                                                                <a href="${url}.png"  data-magnify >
-                                                                    <img style="max-width: 100%;max-height: 100%;"src="${url}_min.png"/>
-                                                                </a>
+                                                              ${file}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -151,7 +167,7 @@ var tomUploadControl = function (o) {
                                             </div>
                                         </div>
                                     </div>`;
-                        $("#"+idNamePre+id).append(img);
+                        $("#"+idNamePre+id).append(div);
                     }
                 }
             },
@@ -182,12 +198,13 @@ var tomUploadControl = function (o) {
     }
 
     return{
-        upload:doUploadEcgFile,
+        upload:doUploadFile,
         init:function (param,id,type) {
             tomUploadControl.id = id;
             tomUploadControl.type = type;
-            initParams(param);
-            toUploadEcgFile(id);
+            //需要判断上传文件类型时候可以启用
+            //initParams(param);
+            toUploadFile(id);
         },
         min:function(method,id,url,idNamePre){
             tomUploadControl.id = id;

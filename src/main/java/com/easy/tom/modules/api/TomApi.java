@@ -6,21 +6,19 @@ import com.easy.common.utils.IdGen;
 import com.easy.common.utils.ResizeImageUtils;
 import com.easy.tom.system.entity.Attachment;
 import com.easy.tom.system.service.IAttachmentService;
-import com.easy.tom.system.service.impl.AttachmentService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -46,9 +44,9 @@ public class TomApi {
             return tempPath + name;
     }
 
-    // 上传附件
+    // 上传附件(图片)
     @PostMapping("/photoFile")
-    public ResponseEntity uploadFiles(String id, HttpServletRequest request) throws IOException {
+    public ResponseEntity uploadPhotos(String id, HttpServletRequest request) throws IOException {
         Map<String, Object> result = new HashMap<>();
         result.put("result", false);
             MultipartHttpServletRequest multipartRequest = WebUtils.getNativeRequest(request, MultipartHttpServletRequest.class);
@@ -81,6 +79,53 @@ public class TomApi {
                     multipartFile.transferTo(f);
                     Map<String, Object> imageMap = ResizeImageUtils.getImage(f.getPath());
                     ResizeImageUtils.writeThumbnails(((String) imageMap.get("imageName")).substring(0, ((String) imageMap.get("imageName")).lastIndexOf(".")),ResizeImageUtils.zoomImage((BufferedImage) imageMap.get("imageData")), f.getParent());
+                    //处理逻辑
+                    Attachment att = new Attachment();
+                    att.setAttId(IdGen.uuid());
+                    att.setBusinessId(id);
+                    att.setActualFileName(f.getName());
+                    att.setOriginalFileName(multipartFile.getOriginalFilename());
+                    att.setFileSize(multipartFile.getSize());
+                    att.setFileType(multipartFile.getContentType());
+                    iAttService.insert(att);
+                    result.put("result", true);
+                }
+            }
+        return ResponseEntity.ok(result);
+    }
+    //上传文件
+    @PostMapping("/fileFile")
+    public ResponseEntity uploadFiles(String id, HttpServletRequest request) throws IOException {
+        Map<String, Object> result = new HashMap<>();
+        result.put("result", false);
+            MultipartHttpServletRequest multipartRequest = WebUtils.getNativeRequest(request, MultipartHttpServletRequest.class);
+            // 获取上传的文件
+            List<MultipartFile> fileList = multipartRequest.getFiles("fileFile");
+            if(fileList != null){
+                if(path.lastIndexOf("/") == -1 && path.lastIndexOf("\\\\") == -1){
+                    path += "/";
+                }
+                for (MultipartFile multipartFile : fileList) {
+                    Calendar c = Calendar.getInstance();
+                    String tempPath = path + getCalendarPath(c);
+                    // 将tempPath字符串中所有的\\替换成/
+                    tempPath = tempPath.replaceAll("\\\\\\\\", "/");
+                    // 将tempPath字符串中所有的\替换成/
+                    tempPath = tempPath.replaceAll("\\\\", "/");
+                    //用本来的名,因为得回显名字
+                    //String fileName =  IdGen.uuid() + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf('.')) ;
+                    String fileName = multipartFile.getOriginalFilename();
+                    tempPath += fileName;
+                    // 判断tempPath字符串是绝对路径还是相对路径
+                    if (!(tempPath.startsWith("/") || tempPath.contains(":"))) {
+                        tempPath = request.getServletContext().getRealPath("/") + tempPath;
+                    }
+                    File f = new File(tempPath);
+                    // 如果用于保存上传文件的目录不存在则创建该目录
+                    if(!f.getParentFile().exists()){
+                        f.getParentFile().mkdirs();
+                    }
+                    multipartFile.transferTo(f);
                     //处理逻辑
                     Attachment att = new Attachment();
                     att.setAttId(IdGen.uuid());
@@ -140,6 +185,57 @@ public class TomApi {
         }
         iAttService.deleteById(att.getAttId());
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/downFileByName")
+    public void downFileByName(String fileName,HttpServletResponse res){
+        if(StringUtils.isBlank(fileName)){
+            return;
+        }
+        try {
+            Wrapper<Attachment> wrapper = new EntityWrapper();
+            wrapper.eq("ACTUALFILENAME",fileName);
+            Attachment att = iAttService.selectOne(wrapper);
+            Calendar c = Calendar.getInstance();
+            c.setTime(att.getCreateTime());
+            String tempPath = path+getCalendarPath(c)+fileName;
+            File file = new File(tempPath);
+        if(!file.exists()){
+            return;
+        }
+            TomApi.download(file,res);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+    /**
+     * 下载文件
+     * @param file
+     * @param response
+     * @throws IOException
+     */
+    public static void download(File file, HttpServletResponse response) throws IOException {
+        InputStream fis = new BufferedInputStream(new FileInputStream(file));
+        response.reset();
+        response.setContentType("application/x-download");
+        response.setContentType("application/octet-stream");
+        response.addHeader("Content-Disposition","attachment;filename="+ new String(file.getName().getBytes("UTF-8"),"iso-8859-1"));
+        response.addHeader("Content-Length", "" + file.length());
+        OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
+
+        byte[] buffer = new byte[1024 * 1024 * 4];
+        int i= -1;
+        while ((i=fis.read(buffer))!=-1) {
+            toClient.write(buffer, 0, i);
+        }
+        fis.close();
+        toClient.flush();
+        toClient.close();
     }
 }
 

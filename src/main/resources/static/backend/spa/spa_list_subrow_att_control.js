@@ -6,7 +6,7 @@ var spaSubRowAttControl = function() {
         $("#spa_attchments_"+id).empty();
         tomUploadControl.min("GET",id,ctx + "api/getFileListData/" + id,"spa_attchments_");
 
-        var att = `<a class="btn btn-sm blue" style="text-decoration:none;" href="javascript:tomUploadControl.init('photo','${id}','id')"><i class="fa fa-upload"></i> 上传附件 </a>`;
+        var att = `<a class="btn btn-sm blue" style="text-decoration:none;" href="javascript:tomUploadControl.init('','${id}','id')"><i class="fa fa-upload"></i> 上传文件 </a>`;
             $("#att_"+id).append(att);
     }
     var handleDel = function(name) {

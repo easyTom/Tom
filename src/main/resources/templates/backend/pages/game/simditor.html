@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{backend/layouts/default}">
+
+<head th:include="backend/layouts/default :: htmlhead" th:with="title='bsc'">
+</head>
+
+<body>
+<section layout:fragment="content">
+	<link type="text/css" rel="stylesheet" th:href="@{/backend/game/simditor/styles/simditor.css}" />
+	<div class="page-content-wrapper">
+		<div class="page-content">
+
+			<div class="page-bar">
+				<ul class="page-breadcrumb">
+					<li>
+						<i class="fa fa-home"></i>
+						<a th:href="@{/tom/index}">首页</a>
+						<i class="fa fa-angle-right"></i>
+						<a th:href="@{/tom/game/simditor}">富文本</a>
+					</li>
+				</ul>
+			</div>
+
+			<div class="portlet box grey-cararra">
+				<div class="portlet-title">
+					<div class="caption">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<textarea id="editor" placeholder="Balabala" autofocus></textarea>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" charset="utf-8"  th:src="@{/backend/game/simditor/scripts/jquery.min.js}"></script>
+	<script type="text/javascript" charset="utf-8"  th:src="@{/backend/game/simditor/scripts/module.js}"></script>
+	<script type="text/javascript" charset="utf-8"  th:src="@{/backend/game/simditor/scripts/hotkeys.js}"></script>
+	<script type="text/javascript" charset="utf-8"  th:src="@{/backend/game/simditor/scripts/uploader.js}"></script>
+	<script type="text/javascript" charset="utf-8"  th:src="@{/backend/game/simditor/scripts/simditor.js}"></script>
+
+	<script>
+        var editor = new Simditor({
+            textarea: $('#editor')
+            //optional options
+        });
+	</script>
+</section>
+</body>
+</html>
