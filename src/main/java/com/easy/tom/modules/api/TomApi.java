@@ -1,12 +1,19 @@
 package com.easy.tom.modules.api;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.easy.common.utils.IdGen;
+import com.easy.common.utils.R;
 import com.easy.common.utils.ResizeImageUtils;
+import com.easy.common.utils.WebUtil;
+import com.easy.tom.modules.study.entity.DemoCode;
+import com.easy.tom.modules.study.service.IDemoCodeService;
+import com.easy.tom.modules.study.service.impl.DemoCodeService;
 import com.easy.tom.system.entity.Attachment;
 import com.easy.tom.system.service.IAttachmentService;
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +39,8 @@ public class TomApi {
     private String path;
     @Autowired
     private IAttachmentService iAttService;
+    @Autowired
+    private IDemoCodeService iDemoCodeService;
 
     //从时间中获取路径
     public String getCalendarPath(Calendar c){
@@ -43,54 +52,66 @@ public class TomApi {
             String tempPath = path+getCalendarPath(c);
             return tempPath + name;
     }
+    //业务id 参数名
+    public R saveFileById(@NotBlank String id, @NotBlank String name, HttpServletRequest request){
+        try {
+            String editorPath = "";
+        MultipartHttpServletRequest multipartRequest = WebUtils.getNativeRequest(request, MultipartHttpServletRequest.class);
+        // 获取上传的文件
+        List<MultipartFile> fileList = multipartRequest.getFiles(name);
+        if(fileList != null){
+            if(path.lastIndexOf("/") == -1 && path.lastIndexOf("\\\\") == -1){
+                path += "/";
+            }
+            for (MultipartFile multipartFile : fileList) {
+                Calendar c = Calendar.getInstance();
+                String tempPath = path + getCalendarPath(c);
+                // 将tempPath字符串中所有的\\替换成/
+                tempPath = tempPath.replaceAll("\\\\\\\\", "/");
+                // 将tempPath字符串中所有的\替换成/
+                tempPath = tempPath.replaceAll("\\\\", "/");
+                //用本来的名不安全
+                // String fileName =  IdGen.uuid() + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf('.')) ;
+                String fileName =  IdGen.uuid() + ".png" ;
+                tempPath += fileName;
+                editorPath = "/data/"+getCalendarPath(c)+fileName;
+                // 判断tempPath字符串是绝对路径还是相对路径
+                if (!(tempPath.startsWith("/") || tempPath.contains(":"))) {
+                    tempPath = request.getServletContext().getRealPath("/") + tempPath;
+                }
+                File f = new File(tempPath);
+                // 如果用于保存上传文件的目录不存在则创建该目录
+                if(!f.getParentFile().exists()){
+                    f.getParentFile().mkdirs();
+                }
+
+                multipartFile.transferTo(f);
+                Map<String, Object> imageMap = ResizeImageUtils.getImage(f.getPath());
+                ResizeImageUtils.writeThumbnails(((String) imageMap.get("imageName")).substring(0, ((String) imageMap.get("imageName")).lastIndexOf(".")),ResizeImageUtils.zoomImage((BufferedImage) imageMap.get("imageData")), f.getParent());
+                //处理逻辑
+                Attachment att = new Attachment();
+                att.setAttId(IdGen.uuid());
+                att.setBusinessId(id);
+                att.setActualFileName(f.getName());
+                att.setOriginalFileName(multipartFile.getOriginalFilename());
+                att.setFileSize(multipartFile.getSize());
+                att.setFileType(multipartFile.getContentType());
+                iAttService.insert(att);
+            }
+        }
+                return R.ok(editorPath);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return  R.error("error");
+        }
+    }
 
     // 上传附件(图片)
     @PostMapping("/photoFile")
     public ResponseEntity uploadPhotos(String id, HttpServletRequest request) throws IOException {
         Map<String, Object> result = new HashMap<>();
-        result.put("result", false);
-            MultipartHttpServletRequest multipartRequest = WebUtils.getNativeRequest(request, MultipartHttpServletRequest.class);
-            // 获取上传的文件
-            List<MultipartFile> fileList = multipartRequest.getFiles("photoFile");
-            if(fileList != null){
-                if(path.lastIndexOf("/") == -1 && path.lastIndexOf("\\\\") == -1){
-                    path += "/";
-                }
-                for (MultipartFile multipartFile : fileList) {
-                    Calendar c = Calendar.getInstance();
-                    String tempPath = path + getCalendarPath(c);
-                    // 将tempPath字符串中所有的\\替换成/
-                    tempPath = tempPath.replaceAll("\\\\\\\\", "/");
-                    // 将tempPath字符串中所有的\替换成/
-                    tempPath = tempPath.replaceAll("\\\\", "/");
-                    //用本来的名不安全
-                   // String fileName =  IdGen.uuid() + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf('.')) ;
-                    String fileName =  IdGen.uuid() + ".png" ;
-                    tempPath += fileName;
-                    // 判断tempPath字符串是绝对路径还是相对路径
-                    if (!(tempPath.startsWith("/") || tempPath.contains(":"))) {
-                        tempPath = request.getServletContext().getRealPath("/") + tempPath;
-                    }
-                    File f = new File(tempPath);
-                    // 如果用于保存上传文件的目录不存在则创建该目录
-                    if(!f.getParentFile().exists()){
-                        f.getParentFile().mkdirs();
-                    }
-                    multipartFile.transferTo(f);
-                    Map<String, Object> imageMap = ResizeImageUtils.getImage(f.getPath());
-                    ResizeImageUtils.writeThumbnails(((String) imageMap.get("imageName")).substring(0, ((String) imageMap.get("imageName")).lastIndexOf(".")),ResizeImageUtils.zoomImage((BufferedImage) imageMap.get("imageData")), f.getParent());
-                    //处理逻辑
-                    Attachment att = new Attachment();
-                    att.setAttId(IdGen.uuid());
-                    att.setBusinessId(id);
-                    att.setActualFileName(f.getName());
-                    att.setOriginalFileName(multipartFile.getOriginalFilename());
-                    att.setFileSize(multipartFile.getSize());
-                    att.setFileType(multipartFile.getContentType());
-                    iAttService.insert(att);
-                    result.put("result", true);
-                }
-            }
+        boolean flag = "error".equals(saveFileById(id,"photoFile",request).get("msg"));
+        result.put("result", flag);
         return ResponseEntity.ok(result);
     }
     //上传文件
@@ -210,9 +231,6 @@ public class TomApi {
     }
 
 
-
-
-
     /**
      * 下载文件
      * @param file
@@ -236,6 +254,31 @@ public class TomApi {
         fis.close();
         toClient.flush();
         toClient.close();
+    }
+
+    @PostMapping("/froala/image")
+    @ResponseBody
+    public String froalaImage (String id, String paramName, HttpServletRequest request){
+        Map<String,Object> ret=new HashMap<String, Object>();
+        String imagePath = (String) saveFileById(id,paramName,request).get("msg");
+        if(!"error".equals(imagePath)){
+          ret.put("link","http://" + request.getServerName()+":"+request.getServerPort()+"/"+request.getContextPath()+imagePath);
+          return JSON.toJSONString(ret);
+        }
+        return JSON.toJSONString("fail");
+    }
+    @PostMapping("/froala/add")
+    @ResponseBody
+    public boolean froalaAdd (String type, String param){
+        DemoCode demoCode = new DemoCode();
+        demoCode.setCodeId(IdGen.uuid());
+        demoCode.setCodeType(type);
+        demoCode.setCreateTime(new Date());
+        demoCode.setCreateBy(WebUtil.getCurrentUser().getRealName());
+        demoCode.setText(param);
+        demoCode.setName("富文本");
+        iDemoCodeService.insert(demoCode);
+        return true;
     }
 }
 

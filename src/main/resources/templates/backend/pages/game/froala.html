@@ -8,8 +8,7 @@
 <body>
 <section layout:fragment="content">
 	<!-- Include Editor style. -->
-	<link href="https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
-
+	<link th:href="@{/backend/common/froala_v3.0.5/css/froala_editor.pkgd.css}" rel="stylesheet" type="text/css" />
 	<div class="page-content-wrapper">
 		<div class="page-content">
 
@@ -23,24 +22,41 @@
 					</li>
 				</ul>
 			</div>
+			<div class="bordered hidden-sm hidden-xs">
+				<div class="portlet-body form">
+						<div class="form-body">
+							<div class="row">
+								<div class="col-md-12">
+									<button type="button" class="btn btn-info" onclick="FroalaManaged.initType('stu_demo_code')"> 新增模板 </button>
+									<button type="button" class="btn btn-info" onclick="FroalaManaged.initType('stu_mistake')"> 新增错误 </button>
+									<button type="button" class="btn btn-info" onclick="FroalaManaged.initType('stu_bsc')"> 新增工作 </button>
+									<button type="button" class="btn btn-info" onclick="FroalaManaged.initType('stu_memo')"> 新增备忘 </button>
+									<input type="hidden" class="form-control" id="initType" name="initType"/>
+								</div>
+							</div>
 
+						</div>
+				</div>
+			</div>
 			<div class="portlet box grey-cararra">
 				<div class="portlet-title">
 					<div class="caption">
-                        <textarea></textarea>
-                    </div>
+					</div>
+				</div>
+				<div class="portlet-body">
+					<div id="froala-editor"></div>
+					<div style="text-align: center">
+						<button style="margin-top:10px " type="button" class="btn" onclick="FroalaManaged.submitEditor()"> <i class="fa fa-check"> </i>  提交 </button>
+					</div>
 				</div>
 			</div>
-			<div class="row">
-            </div>
 		</div>
 	</div>
-    <script type="text/javascript" th:src="@{/backend/common/froala_editor_2.8.5/js/froala_editor.pkgd.min.js}"></script>
+    <script type="text/javascript" th:src="@{/backend/common/froala_v3.0.5/js/froala_editor.pkgd.min.js}"></script>
     <!--中文字体包，注意要放在最下面，不然会报错-->
-    <script type="text/javascript" th:src="@{/backend/common/froala_editor_2.8.5/js/languages/zh_cn.js}"></script>
-		<script>
-            new FroalaEditor('textarea');
-		</script>
+    <script type="text/javascript" th:src="@{/backend/common/froala_v3.0.5/js/languages/zh_cn.js}"></script>
+    <script type="text/javascript" th:src="@{/backend/study/froala_settings.js}"></script>
+    <script type="text/javascript" th:src="@{/backend/study/froala.js}"></script>
 <style>
     .fr-wrapper > div[style*='z-index: 9999'] {
         position: absolute;
