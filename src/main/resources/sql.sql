@@ -84,7 +84,7 @@ DROP TABLE IF EXISTS `stu_demo_code`;
 CREATE TABLE `stu_demo_code` (
   `CODEID` varchar(36) NOT NULL COMMENT '主键',
   `NAME` varchar(50) NOT NULL COMMENT '名称',
-  `CODETYPE` varchar(50) NOT NULL COMMENT '标签',
+  `CODETYPE` varchar(50)  COMMENT '标签',
   `LOOKCOUNT` int(10) DEFAULT 0 COMMENT '热度',
   `TEXT` LONGTEXT NOT NULL COMMENT '内容',
   `CREATETIME` datetime NOT NULL COMMENT '创建时间',

@@ -57,7 +57,8 @@ var TableDatatablesManaged = function (){
             ],
             "createdRow": function ( row, data, index ) {
                 $('td',row).eq(1).html(datetimeUtils.datetimeToFormatDatetime(new Date(data.createTime)));
-                var  str = '<a style="text-decoration:none;" href="javascript:TableDatatablesManaged.del(\'' + data.codeId + '\');">[ 删除 ]</a>';
+                var  str = '<a style="text-decoration:none;" href="javascript:TableDatatablesManaged.(\'' + data.codeId + '\');">[ 查看 ]</a>';
+                     str += '<a style="text-decoration:none;" href="javascript:TableDatatablesManaged.del(\'' + data.codeId + '\');">[ 删除 ]</a>';
                      str += '<a style="text-decoration:none;" href="javascript:TableDatatablesManaged.toUpdateCode(\'' + data.codeId + '\');">[ 修改 ]</a>';
                 $('td',row).eq(3).html(str);
                 /*if( $("#initTableRow").val() == data.examId){
@@ -78,41 +79,44 @@ var TableDatatablesManaged = function (){
 
         });
 
-        $('#myTable tbody').on('click', 'td', function (event) {
-            if (this != event.target) return;
-            var tr = $(this).closest('tr');
-            var row = oTable.row(tr);
-            if (row.length == 0) {
-                return;
-            }
-            var eventData = {
-                row: row,
-                eventEle: this,
-                oTable: oTable
-            };
-            if ( row.child.isShown() ) {
-                // This row is already open - close it
-                row.child.hide();
-                tr.removeClass('shown');
-            }
-            else {
-                subrowControl.format(eventData);
-                tr.addClass('shown');
-            }
-        });
-
 
     }
 
     var toAddCode = function () {
         document.getElementById("modal_code_form").reset();
-        $("#code_title").text("新增模板记录");
+        $("#code_title").text("新增知识点记录");
         type = "doAdd";
         $('#modal_code').modal();
     }
 
     var toUpdateCode = function (codeId) {
-        $("#code_title").text("修改模板记录");
+        $("#code_title").text("修改知识点记录");
+        type = "doUpdate";
+        $.ajax({
+            type	:	"get",
+            url		:	ctx+"/tom/study/demoCode/getOne",
+            data	:	{"id":codeId},
+            dataType:	"json",
+            success	:	function(data){
+                if(data){
+                    $("#codeId").val(data.codeId);
+                    $("#name").val(data.name);
+                    $("#level").val(data.level);
+                    let settings = FroalaManaged.getInitSetting();
+                    var editor = new FroalaEditor('#froala-editor',settings);
+                    editor.html.set(data.text);
+                    $('#modal_code').modal();
+                }else{
+                    alert("获取信息失败，暂无法修改");
+                }
+            },
+            error	:	function(data){
+                console.log(data);
+            }
+        });
+    }
+    var lookUp = function (codeId) {
+        $("#code_title").text("修改知识点记录");
         type = "doUpdate";
         $.ajax({
             type	:	"get",
@@ -152,10 +156,10 @@ var TableDatatablesManaged = function (){
             ignore: "",
             messages: {
                 name:{
-                    required:'模板名称不能为空'
+                    required:'知识点名称不能为空'
                 },
                 text:{
-                    required:'模板内容不能为空',
+                    required:'知识点内容不能为空',
                 },
                 level:{
                     number:'请输入1~9的小写数字'
@@ -242,6 +246,7 @@ var TableDatatablesManaged = function (){
         toUpdateCode:toUpdateCode,
         valid:valid,
         del:del,
+        lookUp:lookUp
     }
 }();
 

@@ -8,6 +8,9 @@
 <body>
 <section layout:fragment="content">
 <link th:href="@{/backend/spa/jquery.magnify.css}" rel="stylesheet" type="text/css"/>
+<link th:href="@{/backend/common/froala_v3.0.5/css/froala_editor.pkgd.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/backend/common/froala_v3.0.5/css/plugins/image.css}" rel="stylesheet" type="text/css" />
+
 	<div class="page-content-wrapper">
 		<div class="page-content">
 			<div class="page-content-body">
@@ -88,11 +91,18 @@
 </style>
 <script type="text/javascript" charset="utf-8"  th:src="@{/backend/common/tomMagnifyControl.js}"></script>
 <script type="text/javascript" charset="utf-8"  th:src="@{/backend/common/tomUploadControl.js}"></script>
-<script type="text/javascript" charset="utf-8"  th:src="@{/backend/study/demo_code_list.js}"></script>
 <script type="text/javascript" charset="utf-8"  th:src="@{/backend/spa/jquery.magnify.js}"></script>
 <script type="text/javascript" charset="utf-8"  th:src="@{/backend/spa/exam_list_subrow.js}"></script>
 <script type="text/javascript" charset="utf-8"  th:src="@{/backend/spa/spa_list_subrow_text_control.js}"></script>
 <script type="text/javascript" charset="utf-8"  th:src="@{/backend/spa/spa_list_subrow_att_control.js}"></script>
+<script type="text/javascript" th:src="@{/backend/common/froala_v3.0.5/js/froala_editor.pkgd.min.js}"></script>
+<script type="text/javascript" th:src="@{/backend/common/froala_v3.0.5/js/plugins/image.min.js}"></script>
+	<!--中文字体包，注意要放在最下面，不然会报错-->
+<script type="text/javascript" th:src="@{/backend/common/froala_v3.0.5/js/languages/zh_cn.js}"></script>
+<script type="text/javascript" th:src="@{/backend/study/froala_settings.js}"></script>
+<script type="text/javascript" th:src="@{/backend/study/froala.js}"></script>
+<script type="text/javascript" charset="utf-8"  th:src="@{/backend/study/demo_code_list.js}"></script>
+
 </section>
 </body>
 </html>
