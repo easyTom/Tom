@@ -5,13 +5,13 @@
     .fr-popup{
         z-index: 20000 !important;
     }
+    .fr-buttons{
+        z-index: 20000 !important;
+    }
 </style>
 <!-- 新增弹窗 -->
-    <div id="modal_code" class="modal fade" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog" style="width: 80%;">
-            <div class="modal-content">
-                <div class="modal-header" style="border-bottom: none">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+            <div class="col-sm-12" id="modal_code" style="display:none">
+                <div  style="border-bottom: none">
                     <h4 id="code_title" class="modal-title text-center">新增知识点</h4>
                 </div>
                 <form id="modal_code_form" action="/" method="post" onsubmit="return false;">
@@ -22,11 +22,11 @@
                                     <tr>
                                         <td>
                                             <div class="form-group">
-                                                <label class="control-label col-sm-3 text-left" >
+                                                <label class="control-label col-sm-1 text-left" >
                                                     知识点名称:<span class="required">*</span>
                                                 </label>
-                                                <div class="col-sm-12">
-                                                    <input type="text" maxlength="18" class="form-control" id="name" name="name"/>
+                                                <div class="col-sm-11">
+                                                    <input type="text" maxlength="100" class="form-control" id="name" name="name"/>
                                                     <input type="hidden" class="form-control" id="codeId" name="codeId"/>
                                                 </div>
                                             </div>
@@ -35,10 +35,10 @@
                                     <tr>
                                         <td>
                                             <div class="form-group">
-                                                <label class="control-label col-sm-3 text-left" >
-                                                    知识点等级:<span class="required">*</span>
+                                                <label class="control-label col-sm-1 text-left" >
+                                                    知识点等级:
                                                 </label>
-                                                <div class="col-sm-12">
+                                                <div class="col-sm-11">
                                                     <input  maxlength="1" class="form-control" id="level" name="level"/>
                                                 </div>
                                             </div>
@@ -46,12 +46,12 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <div class="form-group">
-                                                <label class="control-label col-sm-3 text-left" >
+                                            <div class="form-group" >
+                                                <label class="control-label col-sm-1 text-left" >
                                                     知识点内容: <span class="required">*</span>
                                                 </label>
-                                                <div class="col-sm-12">
-                                                    <textarea   id="froala-editor"   class="form-control" name="text"  ></textarea>
+                                                <div class="col-sm-11">
+                                                    <textarea    id="froala-editor"   class="form-control" name="text"  ></textarea>
                                                 </div>
                                             </div>
                                         </td>
@@ -61,10 +61,8 @@
                         </div>
                     </div>
                     <div class="modal-footer" style="border: 0px;">
-                        <button type="submit" onclick="TableDatatablesManaged.valid();" class="btn green">确定</button>
-                        <button type="button" data-dismiss="modal" class="btn dark btn-outline">关闭</button>
+                        <button type="submit" id="ok" onclick="TableDatatablesManaged.valid();" class="btn green">确定</button>
+                        <button type="button" id="close" onclick="TableDatatablesManaged.showList();" class="btn dark btn-outline">返回</button>
                     </div>
                 </form>
             </div>
-        </div>
-    </div>

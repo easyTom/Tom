@@ -57,7 +57,7 @@ var TableDatatablesManaged = function (){
             ],
             "createdRow": function ( row, data, index ) {
                 $('td',row).eq(1).html(datetimeUtils.datetimeToFormatDatetime(new Date(data.createTime)));
-                var  str = '<a style="text-decoration:none;" href="javascript:TableDatatablesManaged.(\'' + data.codeId + '\');">[ 查看 ]</a>';
+                var  str = '<a style="text-decoration:none;" href="javascript:TableDatatablesManaged.lookUp(\'' + data.codeId + '\');">[ 查看 ]</a>';
                      str += '<a style="text-decoration:none;" href="javascript:TableDatatablesManaged.del(\'' + data.codeId + '\');">[ 删除 ]</a>';
                      str += '<a style="text-decoration:none;" href="javascript:TableDatatablesManaged.toUpdateCode(\'' + data.codeId + '\');">[ 修改 ]</a>';
                 $('td',row).eq(3).html(str);
@@ -84,9 +84,11 @@ var TableDatatablesManaged = function (){
 
     var toAddCode = function () {
         document.getElementById("modal_code_form").reset();
+        $("#codeId").val("");
         $("#code_title").text("新增知识点记录");
         type = "doAdd";
-        $('#modal_code').modal();
+        initFroala("add");
+
     }
 
     var toUpdateCode = function (codeId) {
@@ -102,10 +104,7 @@ var TableDatatablesManaged = function (){
                     $("#codeId").val(data.codeId);
                     $("#name").val(data.name);
                     $("#level").val(data.level);
-                    let settings = FroalaManaged.getInitSetting();
-                    var editor = new FroalaEditor('#froala-editor',settings);
-                    editor.html.set(data.text);
-                    $('#modal_code').modal();
+                    initFroala("update",data.text,data.codeId);
                 }else{
                     alert("获取信息失败，暂无法修改");
                 }
@@ -115,8 +114,9 @@ var TableDatatablesManaged = function (){
             }
         });
     }
+
     var lookUp = function (codeId) {
-        $("#code_title").text("修改知识点记录");
+        $("#code_title").text("查看知识点记录");
         type = "doUpdate";
         $.ajax({
             type	:	"get",
@@ -128,9 +128,9 @@ var TableDatatablesManaged = function (){
                     $("#codeId").val(data.codeId);
                     $("#name").val(data.name);
                     $("#level").val(data.level);
-                    $('#modal_code').modal();
+                    initFroala("look",data.text);
                 }else{
-                    alert("获取信息失败，暂无法修改");
+                    alert("获取信息失败，暂无法查看");
                 }
             },
             error	:	function(data){
@@ -196,9 +196,7 @@ var TableDatatablesManaged = function (){
                     dataType:	"json",
                     success	:	function(data){
                         if(data){
-                            $('#modal_code').modal('hide');
-                            $('#myTable').dataTable().fnClearTable(0);
-                            $('#myTable').dataTable().fnDraw();
+                            showList();
                         }else{
                             alert("操作失败");
                         }
@@ -234,6 +232,61 @@ var TableDatatablesManaged = function (){
         });
     }
 
+    //隐藏显示modal列表
+    var showList = function () {
+        $('#modal_code').css("display","none");
+        $('#bd').css("display","");
+        $('#myTable').dataTable().fnClearTable(0);
+        $('#myTable').dataTable().fnDraw();
+    }
+
+    //隐藏列表显示modal
+    var hideList = function () {
+        //隐藏确定
+        $("#close").css("display","");
+        $('#modal_code').css("display","");
+        $('#bd').css("display","none");
+
+    }
+
+    //是否是查看
+    function initFroala (type,text,codeId){
+        hideList();
+        //获取froala
+        let settings = FroalaManaged.getInitSetting();
+        var editor = new FroalaEditor('#froala-editor',settings);
+        //正常状态
+        editor.edit.on();
+        $("#codeId").attr("readonly",false);
+        $("#name").attr("readonly",false);
+        $("#level").attr("readonly",false);
+        $("#ok").css("display","");
+        switch(type){
+            case "update":
+                settings.imageUploadParams.id = codeId;
+                editor.html.set(text);
+                break;
+
+            case "add":
+                settings.imageUploadParams.id = "";
+                break;
+
+            case "look":
+                $("#codeId").attr("readonly",true);
+                $("#name").attr("readonly",true);
+                $("#level").attr("readonly",true);
+                editor.html.set(text);
+                //禁止编辑
+                editor.edit.off();
+                //隐藏确定
+                $("#ok").css("display","none");
+                break;
+            default :
+                return ;
+                break;
+        }
+    }
+
     return {
         init: function () {
             if (!jQuery().dataTable) {
@@ -246,6 +299,8 @@ var TableDatatablesManaged = function (){
         toUpdateCode:toUpdateCode,
         valid:valid,
         del:del,
+        showList:showList,
+        hideList:hideList,
         lookUp:lookUp
     }
 }();

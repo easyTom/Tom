@@ -8,7 +8,7 @@ var froalaSettings = function () {
         // 请求中包含图像文件信息的参数的名称default → file
         imageUploadParam: 'image_param',
         imageUploadURL:imgUrl,
-        imageUploadParams: {id: 'froalaEditor',paramName:'image_param'},
+        imageUploadParams: {id: '',paramName:'image_param'},
         imageUploadMethod: 'POST',
         // 可以上传的最大图像尺寸
         imageMaxSize: 5 * 1024 * 1024,
@@ -17,6 +17,10 @@ var froalaSettings = function () {
             'image.beforeUpload': function (images) {
             },
             'image.uploaded': function (response) {
+                const codeId = JSON.parse(response).id;
+                if(codeId){
+                    $("#codeId").val(codeId);
+                }
             },
             'image.inserted': function ($img, response) {
                console.log("图像插入编辑器后触发事件");

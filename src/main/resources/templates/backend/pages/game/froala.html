@@ -7,64 +7,100 @@
 
 <body>
 <section layout:fragment="content">
-	<!-- Include Editor style. -->
+	<link th:href="@{/backend/spa/jquery.magnify.css}" rel="stylesheet" type="text/css"/>
 	<link th:href="@{/backend/common/froala_v3.0.5/css/froala_editor.pkgd.css}" rel="stylesheet" type="text/css" />
+	<link th:href="@{/backend/common/froala_v3.0.5/css/plugins/image.css}" rel="stylesheet" type="text/css" />
+
 	<div class="page-content-wrapper">
 		<div class="page-content">
+			<div class="page-content-body">
+				<div class="page-bar">
+					<ul class="page-breadcrumb">
+						<li>
+							<i class="fa fa-home"></i>
+							<a th:href="@{/tom/index}">首页</a>
+							<i class="fa fa-angle-right"></i>
+							<a th:href="@{/tom/study/demo_code}">各种模板</a>
+						</li>
+					</ul>
+				</div>
 
-			<div class="page-bar">
-				<ul class="page-breadcrumb">
-					<li>
-						<i class="fa fa-home"></i>
-						<a th:href="@{/tom/index}">首页</a>
-						<i class="fa fa-angle-right"></i>
-						<a th:href="@{/tom/game/froala}">富文本</a>
-					</li>
-				</ul>
-			</div>
-			<div class="bordered hidden-sm hidden-xs">
-				<div class="portlet-body form">
-						<div class="form-body">
-							<div class="row">
-								<div class="col-md-12">
-									<button type="button" class="btn btn-info" onclick="FroalaManaged.initType('stu_demo_code')"> 新增模板 </button>
-									<button type="button" class="btn btn-info" onclick="FroalaManaged.initType('stu_mistake')"> 新增错误 </button>
-									<button type="button" class="btn btn-info" onclick="FroalaManaged.initType('stu_bsc')"> 新增工作 </button>
-									<button type="button" class="btn btn-info" onclick="FroalaManaged.initType('stu_memo')"> 新增备忘 </button>
-									<input type="hidden" class="form-control" id="initType" name="initType"/>
+				<div class="bordered hidden-sm hidden-xs">
+					<div class="portlet-body form">
+						<form class="form-inline" role="form">
+							<div class="form-body">
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label class="control-label">内容：</label>
+											<input  class="form-control" id="text_code"  placeholder="请输入关键词">
+										</div>
+										<button type="button" id="btn_search" class="btn btn-info" ><i class="fa fa-search"></i> 查询</button>
+									</div>
 								</div>
-							</div>
 
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="portlet light">
+					<div class="portlet-title">
+						<div class="caption">
+							<i class="fa fa-bookmark"></i>
+							<span>模板</span>
 						</div>
-				</div>
-			</div>
-			<div class="portlet box grey-cararra">
-				<div class="portlet-title">
-					<div class="caption">
+						<div class="actions">
+							<!--<a name="btn_status" th:href="'javascript:TableDatatablesManaged.flushBsc();'" class="btn blue">
+                                <i class="fa fa-plus"></i> 一键刷新
+                            </a>-->
+							<a name="btn_status" th:href="'javascript:TableDatatablesManaged.toAddCode();'" class="btn red">
+								<i class="fa fa-plus"></i> 新增记录
+							</a>
+						</div>
+					</div>
+					<textarea   id="froala-editor"   class="form-control" name="text"  ></textarea>
+					<div class="portlet-body">
+						<table class="table table-striped table-bordered table-hover order-column" id="myTable">
+							<thead>
+							<tr>
+								<th> 模板名称 </th>
+								<th> 创建时间 </th>
+								<th> 模板热度 </th>
+								<th> 操作 </th>
+							</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
 					</div>
 				</div>
-				<div class="portlet-body">
-					<div id="froala-editor"></div>
-					<div style="text-align: center">
-						<button style="margin-top:10px " type="button" class="btn" onclick="FroalaManaged.submitEditor()"> <i class="fa fa-check"> </i>  提交 </button>
-					</div>
-				</div>
+
 			</div>
 		</div>
 	</div>
-    <script type="text/javascript" th:src="@{/backend/common/froala_v3.0.5/js/froala_editor.pkgd.min.js}"></script>
-    <!--中文字体包，注意要放在最下面，不然会报错-->
-    <script type="text/javascript" th:src="@{/backend/common/froala_v3.0.5/js/languages/zh_cn.js}"></script>
-    <script type="text/javascript" th:src="@{/backend/study/froala_settings.js}"></script>
-    <script type="text/javascript" th:src="@{/backend/study/froala.js}"></script>
-<style>
-    .fr-wrapper > div[style*='z-index: 9999'] {
-        position: absolute;
-        top: -10000px;
-        opacity: 0;
-        display: none;
-    }
-</style>
+
+	<style>
+		.magnify-stage {
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			border-width: 0;
+		}
+	</style>
+	<script type="text/javascript" charset="utf-8"  th:src="@{/backend/common/tomMagnifyControl.js}"></script>
+	<script type="text/javascript" charset="utf-8"  th:src="@{/backend/common/tomUploadControl.js}"></script>
+	<script type="text/javascript" charset="utf-8"  th:src="@{/backend/spa/jquery.magnify.js}"></script>
+	<script type="text/javascript" charset="utf-8"  th:src="@{/backend/spa/exam_list_subrow.js}"></script>
+	<script type="text/javascript" charset="utf-8"  th:src="@{/backend/spa/spa_list_subrow_text_control.js}"></script>
+	<script type="text/javascript" charset="utf-8"  th:src="@{/backend/spa/spa_list_subrow_att_control.js}"></script>
+	<script type="text/javascript" th:src="@{/backend/common/froala_v3.0.5/js/froala_editor.pkgd.min.js}"></script>
+	<script type="text/javascript" th:src="@{/backend/common/froala_v3.0.5/js/plugins/image.min.js}"></script>
+	<!--中文字体包，注意要放在最下面，不然会报错-->
+	<script type="text/javascript" th:src="@{/backend/common/froala_v3.0.5/js/languages/zh_cn.js}"></script>
+	<script type="text/javascript" th:src="@{/backend/study/froala_settings.js}"></script>
+	<script type="text/javascript" th:src="@{/backend/study/froala.js}"></script>
+	<script type="text/javascript" charset="utf-8"  th:src="@{/backend/study/demo_code_list.js}"></script>
+
 </section>
 </body>
 </html>

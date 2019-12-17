@@ -19,6 +19,8 @@ public class DemoCode implements Serializable {
 
     private String name;
 
+    private Integer level;
+
     private String codeType;
 
     private Integer lookCount;

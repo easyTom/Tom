@@ -26,7 +26,6 @@ var FroalaManaged = function () {
 
         };
         Object.assign(initSetting,froalaSettings.imageSet);
-        console.log(initSetting)
         return initSetting;
     }
     return{

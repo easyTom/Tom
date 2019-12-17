@@ -10,6 +10,12 @@
                 <span class="title">首页</span>
             </a>
         </li>
+        <li class="nav-item start">
+            <a th:href="@{/tom/bsc/index}" class="nav-link nav-toggle">
+                <i class="fa fa-stack-overflow"></i>
+                <span class="title">BSC记录</span>
+            </a>
+        </li>
         <!-- BEGIN STUDY -->
         <li class="nav-item ">
             <a href="javascript:;" class="nav-link nav-toggle">
@@ -21,7 +27,7 @@
                 <li class="nav-item start">
                     <a th:href="@{/tom/study/demo_code}" class="nav-link nav-toggle">
                         <i class="fa fa-stack-overflow"></i>
-                        <span class="title">各种模板</span>
+                        <span class="title">知识点</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -48,12 +54,6 @@
             </ul>
         </li>
         <!-- END STUDY -->
-        <li class="nav-item start">
-            <a th:href="@{/tom/bsc/index}" class="nav-link nav-toggle">
-                <i class="fa fa-stack-overflow"></i>
-                <span class="title">BSC记录</span>
-            </a>
-        </li>
         <li class="nav-item start">
             <a th:href="@{/tom/memo/index}" class="nav-link nav-toggle">
                 <i class="fa fa-meh-o"></i>
@@ -112,23 +112,11 @@
             $("a").each(function () {
             	//当前页面中配置的a标签的href属性的路径
                 var v = $(this).attr("href");
-            	if(d_url == '/tom/nmOrgInfo/detail/10086'){
-            		if (d_url == v) {
-	                    $(this).parents('.nav-item ').addClass("active open");
-	                    $(".nav-link").append('<span class="selected"></span>');
-	                }
-            	}else if(d_url == '/ecg/examination/tjfx'){
-            		if (d_url == v) {
-	            		$(this).parents('.nav-item ').addClass("active open");
-	                    $(".nav-link").append('<span class="selected"></span>');
-            		}
-            	}else{
 	                var result = d_url.startWith(v);
 	                if (d_url == v || result) {
 	                    $(this).parents('.nav-item ').addClass("active open");
 	                    $(".nav-link").append('<span class="selected"></span>');
 	                }
-            	}
             });
         });
     </script>

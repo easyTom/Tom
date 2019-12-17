@@ -9,7 +9,6 @@ import com.easy.common.utils.ResizeImageUtils;
 import com.easy.common.utils.WebUtil;
 import com.easy.tom.modules.study.entity.DemoCode;
 import com.easy.tom.modules.study.service.IDemoCodeService;
-import com.easy.tom.modules.study.service.impl.DemoCodeService;
 import com.easy.tom.system.entity.Attachment;
 import com.easy.tom.system.service.IAttachmentService;
 import org.apache.commons.lang3.StringUtils;
@@ -110,7 +109,7 @@ public class TomApi {
     @PostMapping("/photoFile")
     public ResponseEntity uploadPhotos(String id, HttpServletRequest request) throws IOException {
         Map<String, Object> result = new HashMap<>();
-        boolean flag = "error".equals(saveFileById(id,"photoFile",request).get("msg"));
+        boolean flag = !"error".equals(saveFileById(id,"photoFile",request).get("msg"));
         result.put("result", flag);
         return ResponseEntity.ok(result);
     }
@@ -260,9 +259,13 @@ public class TomApi {
     @ResponseBody
     public String froalaImage (String id, String paramName, HttpServletRequest request){
         Map<String,Object> ret=new HashMap<String, Object>();
+        if(StringUtils.isEmpty(id)){
+             id = IdGen.uuid();
+        }
         String imagePath = (String) saveFileById(id,paramName,request).get("msg");
         if(!"error".equals(imagePath)){
           ret.put("link","http://" + request.getServerName()+":"+request.getServerPort()+"/"+request.getContextPath()+imagePath);
+          ret.put("id",id);
           return JSON.toJSONString(ret);
         }
         return JSON.toJSONString("fail");
