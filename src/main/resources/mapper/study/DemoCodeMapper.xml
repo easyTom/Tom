@@ -18,7 +18,7 @@
             text like concat('%',#{text},'%')
         </if>
         </where>
-        ORDER BY lookCount desc,createtime desc
+        ORDER BY level desc,lookCount desc,createtime desc
 		LIMIT #{startIndex},#{size}
 	</select>
 </mapper>
