@@ -54,8 +54,8 @@ spring.http.multipart:
 multipart.enabled: true
 
 core.security.shiro:
-  loginUrl: http://localhost:8821/EasyTom/ui/frontend/login
-  successUrl: http://localhost:8821/EasyTom/ui/frontend/login
+  loginUrl: http://192.168.0.226:8821/EasyTom/ui/frontend/login
+  successUrl: http://192.168.0.226:8821/EasyTom/ui/frontend/login
   filterChainDefinitionMap:
     /static/**: anon
     /api/**: anon

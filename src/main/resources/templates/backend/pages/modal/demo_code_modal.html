@@ -2,11 +2,12 @@
     .validate-error {
         color: red !important;
     }
-    .fr-popup{
-        z-index: 20000 !important;
-    }
-    .fr-buttons{
-        z-index: 20000 !important;
+
+    .fr-wrapper > div[style*='z-index: 9999'] {
+        position: absolute;
+        top: -10000px;
+        opacity: 0;
+        display: none;
     }
 </style>
 <!-- 新增弹窗 -->
