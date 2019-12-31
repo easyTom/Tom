@@ -6,7 +6,10 @@
 		select COUNT(DISTINCT CODEID) from stu_demo_code
         <where>
             <if test="text!=null and text!=''">
-                text like concat('%',#{text},'%')
+            AND   text like concat('%',#{text},'%')
+            </if>
+            <if test="type!=null and type!=''">
+            AND  CODETYPE = #{type}
             </if>
         </where>
 	</select>
@@ -15,7 +18,10 @@
 		select *  from  stu_demo_code
         <where>
         <if test="text!=null and text!=''">
-            text like concat('%',#{text},'%')
+            AND    text like concat('%',#{text},'%')
+        </if>
+        <if test="type!=null and type!=''">
+            AND CODETYPE = #{type}
         </if>
         </where>
         ORDER BY level desc,lookCount desc,createtime desc

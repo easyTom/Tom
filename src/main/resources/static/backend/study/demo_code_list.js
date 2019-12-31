@@ -42,25 +42,31 @@ var TableDatatablesManaged = function (){
             "sServerMethod": "POST",
             "fnServerParams": function ( aoData ) {
                 var text_code=$('#text_code').val();
+                var type_code=$('#type_code').val();
                 aoData.push(
                     {
                     "name" : "conditions['text']",
                     "value" : text_code
+                    },
+                    {
+                        "name" : "conditions['type']",
+                        "value" : type_code
                     }
                   );
             },
             "aoColumns": [
                 { "data": "name","bSortable": false,"sClass": "text-left" },
+                { "data": "codeType","bSortable": false,"sClass": "text-center" },
                 { "data": "createTime","bSortable": false,"sClass": "text-center" },
                 { "data": "lookCount","bSortable": false,"sClass": "text-center" },
                 { "data": "codeId","bSortable": false,"sClass": "text-center" }
             ],
             "createdRow": function ( row, data, index ) {
-                $('td',row).eq(1).html(datetimeUtils.datetimeToFormatDatetime(new Date(data.createTime)));
+                $('td',row).eq(2).html(datetimeUtils.datetimeToFormatDatetime(new Date(data.createTime)));
                 var  str = '<a style="text-decoration:none;" href="javascript:TableDatatablesManaged.lookUp(\'' + data.codeId + '\');">[ 查看 ]</a>';
                      str += '<a style="text-decoration:none;" href="javascript:TableDatatablesManaged.del(\'' + data.codeId + '\');">[ 删除 ]</a>';
                      str += '<a style="text-decoration:none;" href="javascript:TableDatatablesManaged.toUpdateCode(\'' + data.codeId + '\');">[ 修改 ]</a>';
-                $('td',row).eq(3).html(str);
+                $('td',row).eq(4).html(str);
                 /*if( $("#initTableRow").val() == data.examId){
                     var open = setInterval(function() {
                         $(`#myTable`).find('tbody').find(`tr:eq(${index})`).find('td:eq(2)').click();
@@ -91,6 +97,12 @@ var TableDatatablesManaged = function (){
 
     }
 
+    var getByType = function (type) {
+        $("#type_code").val(type);
+        $('#myTable').dataTable().fnClearTable(0);
+        $('#myTable').dataTable().fnDraw();
+    }
+
     var toUpdateCode = function (codeId) {
         $("#code_title").text("修改知识点记录");
         type = "doUpdate";
@@ -104,6 +116,7 @@ var TableDatatablesManaged = function (){
                     $("#codeId").val(data.codeId);
                     $("#name").val(data.name);
                     $("#level").val(data.level);
+                    $("#codeType").val(data.codeType);
                     initFroala("update",data.text,data.codeId);
                 }else{
                     alert("获取信息失败，暂无法修改");
@@ -128,6 +141,7 @@ var TableDatatablesManaged = function (){
                     $("#codeId").val(data.codeId);
                     $("#name").val(data.name);
                     $("#level").val(data.level);
+                    $("#codeType").val(data.codeType);
                     initFroala("look",data.text);
                 }else{
                     alert("获取信息失败，暂无法查看");
@@ -260,6 +274,7 @@ var TableDatatablesManaged = function (){
         $("#codeId").attr("readonly",false);
         $("#name").attr("readonly",false);
         $("#level").attr("readonly",false);
+        $("#codeType").attr("disabled",false);
         $("#ok").css("display","");
         switch(type){
             case "update":
@@ -275,6 +290,7 @@ var TableDatatablesManaged = function (){
                 $("#codeId").attr("readonly",true);
                 $("#name").attr("readonly",true);
                 $("#level").attr("readonly",true);
+                $("#codeType").attr("disabled","disabled");
                 editor.html.set(text);
                 //禁止编辑
                 editor.edit.off();
@@ -301,7 +317,8 @@ var TableDatatablesManaged = function (){
         del:del,
         showList:showList,
         hideList:hideList,
-        lookUp:lookUp
+        lookUp:lookUp,
+        getByType:getByType
     }
 }();
 

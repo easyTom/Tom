@@ -34,8 +34,11 @@
 										<div class="form-group">
 											<label class="control-label">内容：</label>
 											<input  class="form-control" id="text_code"  placeholder="请输入关键词">
+											<input  type="hidden" id="type_code"  >
 										</div>
 										<button type="button" id="btn_search" class="btn btn-info" ><i class="fa fa-search"></i> 查询</button>
+                                        <button type="button" class="btn btn-info" onclick="TableDatatablesManaged.getByType('知识记录')"> 知识记录 </button>
+                                        <button type="button" class="btn btn-info" onclick="TableDatatablesManaged.getByType('错误记录')"> 错误记录 </button>
 									</div>
 								</div>
 
@@ -61,6 +64,7 @@
 							<thead>
 							<tr>
 								<th> 知识点名称 </th>
+								<th> 知识点类别 </th>
 								<th> 创建时间 </th>
 								<th> 知识点热度 </th>
 								<th> 操作 </th>

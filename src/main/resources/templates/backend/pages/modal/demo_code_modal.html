@@ -47,12 +47,27 @@
                                     </tr>
                                     <tr>
                                         <td>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-1 text-left" >
+                                                    知识点类别:
+                                                </label>
+                                                <div class="col-sm-11">
+                                                    <select class="form-control" id="codeType" name="codeType">
+                                                        <option value="错误记录">错误记录</option>
+                                                        <option value="知识记录" selected = "selected">知识记录</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
                                             <div class="form-group" >
                                                 <label class="control-label col-sm-1 text-left" >
                                                     知识点内容: <span class="required">*</span>
                                                 </label>
                                                 <div class="col-sm-11">
-                                                    <textarea    id="froala-editor"   class="form-control" name="text"  ></textarea>
+                                                    <textarea    id="froala-editor"   class="form-control" name="text"></textarea>
                                                 </div>
                                             </div>
                                         </td>
