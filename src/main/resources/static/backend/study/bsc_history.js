@@ -57,7 +57,7 @@ var uiControl = function () {
 											</a>
 										</div>
 									</div>
-									<div class="portlet-body">
+									<div class="portlet-body" ${item === '远程相关'?'style="display: none;"':''}  >
 									<div class="timeline" id="list">
 									   ${list}
 									</div>
