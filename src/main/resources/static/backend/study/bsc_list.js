@@ -162,6 +162,7 @@ var TableDatatablesManaged = function (){
                     $("#bscId").val(data.bscId);
                     $("#name").val(data.name);
                     $("#text").val(data.text);
+                    $("#createTimeString").val(datetimeUtils.datetimeToFormatDatetime(new Date(data.createTime)));
                     $(`#type option[value='${data.type}']`).attr("selected","selected");
                     $('#modal_bsc').modal();
                 }else{
@@ -218,6 +219,8 @@ var TableDatatablesManaged = function (){
             },
             submitHandler: function (form) {
                 var formData = new FormData(form);
+                var createDate = $("#createTimeString").val();
+                formData.append("createTime",new Date(createDate));
                 $.ajax({
                     type	:	"post",
                     url		:	ctx+"/tom/bsc/"+type,

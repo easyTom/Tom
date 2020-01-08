@@ -1,5 +1,7 @@
 package com.easy.tom.modules.bsc.web;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.easy.common.model.DataTableRequest;
 import com.easy.common.model.DataTableResponse;
@@ -10,6 +12,7 @@ import com.easy.tom.modules.bsc.service.IBscService;
 import com.easy.tom.system.entity.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,6 +31,10 @@ public class BSCController {
     @RequestMapping("/index")
     public String index(){
         return VIEW+"bsc_index";
+    }
+    @RequestMapping("/history")
+    public String history(){
+        return VIEW+"bsc_history";
     }
 
     @ResponseBody
@@ -69,6 +76,20 @@ public class BSCController {
         iBscService.insert(bsc);
         return true;
     }
+    @ResponseBody
+    @RequestMapping(value="/getAllByType",method= RequestMethod.POST,produces="application/json;charset=utf-8")
+    public ResponseEntity getAllByType(String type,String text,String from,String to){
+        Map<String, Object> result = new HashMap<>();
+        Wrapper<Bsc> bscWrapper = new EntityWrapper<>();
+        bscWrapper.eq("TYPE",type);
+        bscWrapper.like("NAME",text);
+        bscWrapper.orderBy("CREATETIME",false);
+        bscWrapper.between("CREATETIME",from,to);
+        List<Bsc> bscList = iBscService.selectList(bscWrapper);
+        result.put("data", bscList);
+        return  ResponseEntity.ok(result);
+    }
+
     @ResponseBody
     @RequestMapping(value="/doDel",method= RequestMethod.POST,produces="application/json;charset=utf-8")
     public boolean doDel(String id){

@@ -10,11 +10,26 @@
                 <span class="title">首页</span>
             </a>
         </li>
-        <li class="nav-item start">
-            <a th:href="@{/tom/bsc/index}" class="nav-link nav-toggle">
+        <li class="nav-item ">
+            <a href="javascript:;" class="nav-link nav-toggle">
                 <i class="fa fa-stack-overflow"></i>
                 <span class="title">BSC记录</span>
+                <span class="arrow"></span>
             </a>
+            <ul class="sub-menu">
+                <li class="nav-item start">
+                    <a th:href="@{/tom/bsc/history}" class="nav-link nav-toggle">
+                        <i class="fa fa-history"></i>
+                        <span class="title">操作历史</span>
+                    </a>
+                </li>
+                <li class="nav-item start">
+                    <a th:href="@{/tom/bsc/index}" class="nav-link nav-toggle">
+                        <i class="fa fa-list"></i>
+                        <span class="title">具体显示</span>
+                    </a>
+                </li>
+            </ul>
         </li>
         <!-- BEGIN STUDY -->
         <li class="nav-item ">

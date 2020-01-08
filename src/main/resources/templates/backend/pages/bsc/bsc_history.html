@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{backend/layouts/default}">
+
+<head th:include="backend/layouts/default :: htmlhead" th:with="title='bsc'">
+</head>
+
+<body>
+<section layout:fragment="content">
+<link th:href="@{/backend/spa/jquery.magnify.css}" rel="stylesheet" type="text/css"/>
+	<div class="page-content-wrapper">
+		<div class="page-content">
+			<div class="page-content-body">
+				<div class="page-bar">
+					<ul class="page-breadcrumb">
+						<li>
+							<i class="fa fa-home"></i>
+							<a th:href="@{/tom/index}">首页</a>
+							<i class="fa fa-angle-right"></i>
+							<a th:href="@{/tom/bsc/index}">与BSC相关的任务</a>
+						</li>
+					</ul>
+				</div>
+
+				<div class="bordered hidden-sm hidden-xs">
+					<div class="portlet-body form">
+						<form class="form-inline" role="form">
+							<div class="form-body">
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label class="control-label">内容：</label>
+											<input  class="form-control" id="text_bsc"  placeholder="请输入关键词">
+										</div>
+										<button type="button" class="btn btn-info" onclick="uiControl.getBy('')"><i class="fa fa-search"></i> 查询</button>
+										<button type="button" class="btn btn-info" onclick="uiControl.getBy('本周')"> 本周 </button>
+										<button type="button" class="btn btn-info" onclick="uiControl.init()"> 重置 </button>
+									</div>
+								</div>
+
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="portlet light">
+					<div class="portlet-body">
+						<div class="row" id="uiDom">
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+<style>
+	.magnify-stage {
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		border-width: 0;
+	}
+</style>
+<script type="text/javascript" charset="utf-8"  th:src="@{/backend/common/tomDateControl.js}"></script>
+<script type="text/javascript" charset="utf-8"  th:src="@{/backend/study/bsc_history.js}"></script>
+</section>
+</body>
+</html>
