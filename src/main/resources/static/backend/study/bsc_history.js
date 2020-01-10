@@ -68,7 +68,7 @@ var uiControl = function () {
                 .catch(function (result) {
                     console.log(result)
                 });
-            return null;
+            return true;
         });
     };
 

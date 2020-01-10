@@ -144,6 +144,7 @@ var TableDatatablesManaged = function (){
     var toAddBsc = function () {
         document.getElementById("modal_bsc_form").reset();
         $('#modal_bsc').modal();
+        $('#ct').css("display","none");
         $("#bsc_title").text("新增Bsc记录");
         type = "doAdd";
         $('#modal_bsc').modal();
@@ -151,6 +152,7 @@ var TableDatatablesManaged = function (){
 
     var toUpdateBsc = function (bscId) {
         $("#bsc_title").text("修改Bsc记录");
+        $('#ct').css("display","");
         type = "doUpdate";
         $.ajax({
             type	:	"get",
@@ -220,7 +222,9 @@ var TableDatatablesManaged = function (){
             submitHandler: function (form) {
                 var formData = new FormData(form);
                 var createDate = $("#createTimeString").val();
-                formData.append("createTime",new Date(createDate));
+                if(createDate){
+                    formData.append("createTime",new Date(createDate));
+                }
                 $.ajax({
                     type	:	"post",
                     url		:	ctx+"/tom/bsc/"+type,
