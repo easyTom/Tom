@@ -1,40 +1,49 @@
 var dateControl = function () {
 
-    function formatDate(date) {
-        var myyear = date.getFullYear();
-        var mymonth = date.getMonth() + 1;
-        var myweekday = date.getDate();
-
-        if (mymonth < 10) {
-            mymonth = "0" + mymonth;
+    //获取上周起始时间结束时间、下周起始时间结束时间开始时间和本周起始时间结束时间;（n为7的倍数上周7本周0下周-7）
+    var getWeekByTime = function (n) {
+        var now = new Date();
+        var day = now.getDay();
+        //判断是否为周日,如果不是的话,就让今天的day-1(例如星期二就是2-1)
+        if (day !== 0) {
+            n = n + (day - 1);
+        } else {
+            n = n + day;
         }
-        if (myweekday < 10) {
-            myweekday = "0" + myweekday;
-        }
-        return (myyear + "-" + mymonth + "-" + myweekday + " 00:00:00");
+        now.setDate(now.getDate() - n);
+        var  year = now.getFullYear();
+        var  month = now.getMonth() + 1;
+        var  date = now.getDate();
+        return year + "-" + (month < 10 ? ('0' + month) : month) + "-" + (date < 10 ? ('0' + date) : date);
     }
 
-    var now = new Date(); //当前日期
-    var nowDayOfWeek = now.getDay() -1; //今天本周的第几天
-    var nowDay = now.getDate(); //当前日
-    var nowMonth = now.getMonth(); //当前月
-    var nowYear = now.getYear(); //当前年
-    nowYear += (nowYear < 2000) ? 1900 : 0; //
+    var getDayByTime = function (n) {
+        var dd = new Date();
+        dd.setDate(dd.getDate() - n);
+        var y = dd.getFullYear();
+        var m = dd.getMonth() + 1 < 10 ? "0" + (dd.getMonth() + 1) : dd.getMonth() + 1;
+        var d = dd.getDate() < 10 ? "0" + dd.getDate() : dd.getDate();
+        return y + "-" + m + "-" + d ;
+    };
+    var getMonthByTime = function (n) {
+        var dd = new Date();
+        dd.setMonth(dd.getMonth()-n)
+        var y = dd.getFullYear();
+        var m = dd.getMonth() + 1 < 10 ? "0" + (dd.getMonth() + 1 ) : dd.getMonth() + 1 ;
+        return y + "-" + m + "-" + "01" ;
+    };
+    var getYearByTime = function (n) {
+        var dd = new Date();
+        dd.setFullYear(dd.getFullYear()-n)
+        var y = dd.getFullYear();
+        return y + "-" + "01" + "-" + "01" ;
+    };
 
-    //获得本周的周一
-    function getWeekStartDate() {
-        var weekStartDate = new Date(nowYear, nowMonth, nowDay - nowDayOfWeek);
-        return formatDate(weekStartDate);
+    return {
+        getWeek:getWeekByTime,
+        getMonth:getMonthByTime,
+        getYear:getYearByTime,
+        getDay:getDayByTime
     }
 
-    //获得本周的周日
-    function getWeekEndDate() {
-        var weekEndDate = new Date(nowYear, nowMonth, nowDay + (7 - nowDayOfWeek));
-        return formatDate(weekEndDate);
-    }
-
-    return{
-        getWeekEndDate:getWeekEndDate,
-        getWeekStartDate:getWeekStartDate
-    }
 }();

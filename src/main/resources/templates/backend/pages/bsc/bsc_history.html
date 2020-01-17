@@ -21,27 +21,7 @@
 						</li>
 					</ul>
 				</div>
-
-				<div class="bordered hidden-sm hidden-xs">
-					<div class="portlet-body form">
-						<form class="form-inline" role="form">
-							<div class="form-body">
-								<div class="row">
-									<div class="col-md-12">
-										<div class="form-group">
-											<label class="control-label">内容：</label>
-											<input  class="form-control" id="text_bsc"  placeholder="请输入关键词">
-										</div>
-										<button type="button" class="btn btn-info" onclick="uiControl.getBy('')"><i class="fa fa-search"></i> 查询</button>
-										<button type="button" class="btn btn-info" onclick="uiControl.getBy('本周')"> 本周 </button>
-										<button type="button" class="btn btn-info" onclick="uiControl.init()"> 重置 </button>
-									</div>
-								</div>
-
-							</div>
-						</form>
-					</div>
-				</div>
+				<div th:replace="~{backend/pages/common/static_tab_dates}"/>
 				<div class="portlet light">
 					<div class="portlet-body">
 						<div class="row" id="uiDom">
@@ -62,6 +42,7 @@
 	}
 </style>
 <script type="text/javascript" charset="utf-8"  th:src="@{/backend/common/tomDateControl.js}"></script>
+<script type="text/javascript" charset="utf-8"  th:src="@{/backend/common/tomDateCheck_buttons.js}"></script>
 <script type="text/javascript" charset="utf-8"  th:src="@{/backend/study/bsc_history.js}"></script>
 </section>
 </body>

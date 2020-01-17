@@ -1,7 +1,11 @@
 var uiControl = function () {
     var typeList = ["修改BUG","新增功能","部署更新","远程相关"];
     //参数：value数组中的当前项, index当前项的索引, array原始数组；
-    var getAllByType = function (type,text,from,to) {
+    var getAllByType = function (type) {
+        var text = $("#text_list").val();
+        var from = $("#from").val();
+        var to = $("#to").val();
+
         return  new Promise(function (resolve, reject) {
             $.ajax({
                 url: ctx+'tom/bsc/getAllByType',
@@ -21,10 +25,10 @@ var uiControl = function () {
             });
         })
     }
-    var init = function (text,from,to) {
+    var init = function () {
         $("#uiDom").html("");
         typeList.map(function (item,index,array ) {
-            getAllByType(item,text,from,to)
+            getAllByType(item)
                 .then(function (result) {
                     var list = "";
                     result.map(function (result) {
@@ -72,20 +76,15 @@ var uiControl = function () {
         });
     };
 
-    var getBy = function (obj) {
-        var text = $("#text_bsc").val();
-        var from = "";
-        var to = "";
-        if(obj){
-            from = dateControl.getWeekStartDate();
-            to = dateControl.getWeekEndDate();
-        }
-        init(text,from,to);
-    };
-
+    var reset = function () {
+        $("#text_list").val("");
+        $("#from").val("");
+        $("#to").val("");
+        init();
+    }
     return {
         init:init,
-        getBy:getBy
+        reset:reset
     }
 }();
 if (App.isAngularJsApp() === false) {

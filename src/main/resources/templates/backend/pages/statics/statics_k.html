@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{backend/layouts/default}">
+
+<head th:include="backend/layouts/default :: htmlhead" th:with="title='bsc'">
+</head>
+
+<body>
+<section layout:fragment="content">
+<link th:href="@{/backend/spa/jquery.magnify.css}" rel="stylesheet" type="text/css"/>
+	<div class="page-content-wrapper">
+		<div class="page-content">
+			<div class="page-content-body">
+				<div class="page-bar">
+					<ul class="page-breadcrumb">
+						<li>
+							<i class="fa fa-home"></i>
+							<a th:href="@{/tom/index}">首页</a>
+							<i class="fa fa-angle-right"></i>
+						<li>
+							<span>统计分析</span>
+							<i class="fa fa-angle-right"></i>
+						</li>
+						<li>
+							<span>K线图</span>
+						</li>
+					</ul>
+				</div>
+				<div id="main" style="width: 100%; height: 600px;"></div>
+
+			</div>
+		</div>
+	</div>
+<script type="text/javascript" charset="utf-8"  th:src="@{/backend/echarts/dist/echarts.min.js}"></script>
+<script type="text/javascript" charset="utf-8"  th:src="@{/backend/statics/k.js}"></script>
+</section>
+</body>
+</html>

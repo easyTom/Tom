@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.easy.tom.modules.statics.mapper.StaticsMapper">
+
+
+	<select id="getDataK" parameterType="map" resultType="map">
+       SELECT
+            b.datetime time,
+            sum(count1) AS c1,
+            sum(count2) AS c2
+        FROM
+            (
+                SELECT
+                    date(mc.CREATETIME) AS datetime,
+                    count(*) AS count1,
+                    '' AS count2
+                FROM
+                    stu_bsc mc
+                GROUP BY
+                    date(mc.CREATETIME)
+                UNION ALL
+                    SELECT
+                        date(mcc.CREATETIME) AS datetime,
+                        '' AS count1,
+                        count(*) AS count2
+                    FROM
+                        stu_demo_code mcc
+                    GROUP BY
+                        date(mcc.CREATETIME)
+            ) b
+        GROUP BY time   ORDER BY time
+	</select>
+</mapper>

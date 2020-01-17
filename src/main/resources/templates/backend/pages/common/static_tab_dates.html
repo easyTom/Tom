@@ -1,0 +1,66 @@
+<div class="bordered hidden-sm hidden-xs">
+    <div class="portlet-body form">
+        <form class="form-inline" role="form" id="searchForm">
+            <div class="form-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label">内容：</label>
+                            <input  class="form-control" id="text_list"  placeholder="请输入关键词">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">创建日期：</label>
+                            <div class="input-group input-large date-picker input-daterange" data-date-format="yyyy-mm-dd" >
+                                <input id="from" class="form-control" type="text" readonly placeholder="开始">
+                                <span class="input-group-addon"> 到 </span>
+                                <input id="to" class="form-control" type="text" readonly placeholder="结束">
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-info" id="btn_search"><i class="fa fa-search"></i> 查询</button>
+                        <button type="button" class="btn btn-info" onclick="uiControl.reset()">  <i class="fa fa fa-spinner"></i> 重置</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+</div>
+<div class="portlet light">
+    <ul class="nav nav-tabs">
+    <li class="active">
+        <a href="#day" data-toggle="tab" aria-expanded="true" id="daya"> 按天统计 </a>
+    </li>
+    <li class="">
+        <a href="#week" data-toggle="tab" aria-expanded="false" id="weeka"> 按周统计 </a>
+    </li>
+    <li class="">
+        <a href="#month" data-toggle="tab" aria-expanded="false" id="montha"> 按月统计 </a>
+    </li>
+    <li class="">
+        <a href="#year" data-toggle="tab" aria-expanded="false" id="yeara"> 按年统计 </a>
+    </li>
+</ul>
+    <div class="tab-content">
+    <div class="tab-pane fade active in" id="day">
+        <button type="button" class="btn btn-info" name="btn_search_today"><i class="fa fa-angle-down"></i> 今天 </button>
+        <button type="button" class="btn btn-info" name="btn_search_before"><i class="fa fa-angle-left"></i> 前一天 </button>
+        <button type="button" class="btn btn-info" name="btn_search_after"><i class="fa fa-angle-right"></i> 后一天 </button>
+    </div>
+    <div class="tab-pane fade" id="week">
+        <button type="button" class="btn btn-info" name="btn_search_today"><i class="fa fa-angle-down"></i> 本周 </button>
+        <button type="button" class="btn btn-info" name="btn_search_before"><i class="fa fa-angle-left"></i> 前一周 </button>
+        <button type="button" class="btn btn-info" name="btn_search_after"><i class="fa fa-angle-right"></i> 后一周 </button>
+    </div>
+    <div class="tab-pane fade" id="month">
+        <button type="button" class="btn btn-info" name="btn_search_today"><i class="fa fa-angle-down"></i> 本月 </button>
+        <button type="button" class="btn btn-info" name="btn_search_before"><i class="fa fa-angle-left"></i> 前一月 </button>
+        <button type="button" class="btn btn-info" name="btn_search_after"><i class="fa fa-angle-right"></i> 后一月 </button>
+    </div>
+    <div class="tab-pane fade" id="year">
+        <button type="button" class="btn btn-info" name="btn_search_today"><i class="fa fa-angle-down"></i> 今年 </button>
+        <button type="button" class="btn btn-info" name="btn_search_before"><i class="fa fa-angle-left"></i> 前一年 </button>
+        <button type="button" class="btn btn-info" name="btn_search_after"><i class="fa fa-angle-right"></i> 后一年 </button>
+    </div>
+</div>
+</div>
