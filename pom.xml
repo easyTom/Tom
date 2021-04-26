@@ -22,7 +22,7 @@
         <thymeleaf-layout-dialect.version>2.0.0</thymeleaf-layout-dialect.version>
 
         <commons-lang3.version>3.4</commons-lang3.version>
-        <commons-io.version>2.5</commons-io.version>
+        <commons-io.version>2.7</commons-io.version>
         <commons-codec.version>1.9</commons-codec.version>
         <commons-beanutils.version>1.9.1</commons-beanutils.version>
         <guava.version>19.0</guava.version>
