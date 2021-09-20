@@ -28,7 +28,7 @@
         <guava.version>19.0</guava.version>
         <dozer.version>5.5.1</dozer.version>
         <fastjson.version>1.2.28</fastjson.version>
-        <shiro.version>1.2.3</shiro.version>
+        <shiro.version>1.8.0</shiro.version>
     </properties>
 
     <dependencies>
